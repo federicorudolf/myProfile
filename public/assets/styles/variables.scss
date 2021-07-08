@@ -1,0 +1,30 @@
+/* --- Imports --- */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@100;300;500;700&display=swap');
+
+/* --- Colors --- */
+$mainColor: #ff3e00;
+$mainBackgroundColor: #222429;
+$red: #ed1c0d;
+$orange: #ed7300;
+$purple: #663382;
+$blue: #3d8cde;
+$cyan: #00c9bf;
+$lily: #ffa3b5;
+$pink: #ff3363;
+$gold: #ffbf0f;
+$green: #87c70f;
+$black: #111;
+$slate: #222;
+$gray: #333;
+$lightGray: #404040;
+$silver: #888;
+$egg: #f8f8f8;
+
+/* --- Fonts --- */
+$mainFont: 'IBM Plex Mono', monospace;
+
+/* --- Mixins --- */
+@mixin widthHeight($width, $height) {
+    width: $width;
+    height: $height;
+}
