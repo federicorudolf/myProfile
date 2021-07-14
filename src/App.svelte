@@ -1,5 +1,6 @@
 <script>
   import CircleAnimation from './Utils/CircleAnimation.svelte';
+  import Header from './Shared/Header.svelte';
 
   var title = '';
   const TIME = 200;
@@ -49,17 +50,17 @@
 
 </script>
 
-<main>
+<main class="mainContainer">
   <CircleAnimation />
-  <section class="main">
-    <h1> {title.length ? title : ''} </h1>
+  <section class="mainContainer__first">
+    <Header />
+    <h1 class="mainContainer__first__title"> {title.length ? title : ''} </h1>
   </section>
 </main>
 
 <style lang="scss">
-	@import '../public/assets/styles/variables.scss';
-
-	main {
+  @import '../public/assets/styles/variables.scss';
+	.mainContainer {
 		text-align: center;
 		padding: 1em;
 		max-width: 240px;
@@ -67,26 +68,25 @@
     font-family: $mainFont;
     font-weight: 300;
     background-color: $mainBackgroundColor;
+    
+    &__first {
+      background-color: transparent;
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      @include widthHeight(100%, 100%);
+
+      &__title {
+        color: $mainColor;
+        text-transform: uppercase;
+        font-size: 6em;
+        font-weight: 100;
+      }
+    }
 	}
-
-  .main {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-	h1 {
-		color: $mainColor;
-		text-transform: uppercase;
-		font-size: 6em;
-		font-weight: 100;
-	}
-
 	@media (min-width: 640px) {
 		main {
 			max-width: none;

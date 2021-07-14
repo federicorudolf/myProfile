@@ -28,3 +28,11 @@ $mainFont: 'IBM Plex Mono', monospace;
     width: $width;
     height: $height;
 }
+
+@mixin margin($topBottom, $rightLeft) {
+    margin: $topBottom $rightLeft;
+}
+
+@mixin padding($topBottom, $rightLeft) {
+    padding: $topBottom $rightLeft;
+}
