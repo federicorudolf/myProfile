@@ -1,11 +1,28 @@
 <script>
+  import { createEventDispatcher } from 'svelte';
+
+  const headerItems = [
+    'inicio',
+    'skills',
+    'trabajos',
+    'certificados'
+  ]; 
+  const dispatch = createEventDispatcher();
+
+  function headerItemClicked(item) {
+    dispatch('navigate-to', item)
+  }
 
 </script>
 
 <header class="header d-flex flex-row justify-content-between align-items-center">
   <a href=""> Testing </a>
   <ul class="header__menu d-flex flex-row justify-between align-items-center">
-      <li class="header__menu__item"> Holi</li>
+    { #each headerItems as headerItem }
+      <li class="header__menu__item">
+        <button on:click="{ () => headerItemClicked(headerItem) }">{ headerItem } </button>
+      </li>
+    { /each }
   </ul>
 </header>
 
@@ -14,7 +31,8 @@
   .header {
       position: fixed;
       top: 0;
-      box-shadow: 0 2px 15px -5px rgba($color: $lightGray, $alpha: 0.2);
+      box-shadow: 0 2px 15px -5px rgba($color: $egg, $alpha: 0.2);
+      backdrop-filter: blur(2px);
       @include widthHeight(100%, 60px);
       @include padding(0, 2em);
 
@@ -27,6 +45,13 @@
         font-family: $mainFont;
           &__item {
             color: $egg;
+            text-transform: capitalize;
+            @include margin(0, 0.5em); 
+          }
+
+          &__item:hover {
+            color: $mainColor;
+            cursor: pointer;
           }
       }
   }
