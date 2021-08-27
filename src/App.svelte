@@ -49,13 +49,17 @@
     }
   }
 
+  function navigateTo(event) {
+
+  }
+
   writeTitles();
 
 </script>
 
 <main class="mainContainer">
   <CircleAnimation />
-  <Main title={title} />
+  <Main on:navigate-to="{ navigateTo }" title={title} />
   <Skills />
 </main>
 
@@ -63,7 +67,6 @@
 	.mainContainer {
 		text-align: center;
 		padding: 1em;
-		max-width: 240px;
 		margin: 0 auto;
     font-family: $mainFont !important;
     font-weight: 300;

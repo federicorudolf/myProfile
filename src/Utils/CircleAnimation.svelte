@@ -2,8 +2,8 @@
   import Circle from '../Models/Circle';
 
   const RADIUS = 25 * 0.3;
-  const MOBILE_CIRCLES = 50;
-  const DESKTOP_CIRCLES = 350;
+  const MOBILE_CIRCLES = 150;
+  const DESKTOP_CIRCLES = 250;
   const MOBILE_SIZE = 785;
   const GRAVITY = 0.0098;
   const MAXFORCE = .2;
@@ -16,7 +16,9 @@
     width: undefined,
     height: undefined
   }
-/*   const colors = [
+/*   
+Change variable to use animation with colors
+const colors = [
 		  "rgba(237, 28, 13, 1.0)",
 		  "rgba(237, 115, 0, 1.0)",
 		  "rgba(102, 51, 130, 1.0)",

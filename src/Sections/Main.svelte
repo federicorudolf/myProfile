@@ -1,13 +1,15 @@
 <script>
   import Header from '../Shared/Header.svelte';
-  import Modal from '../Shared/Modal.svelte';
+  import { createEventDispatcher } from 'svelte';
+
   export let title;
-  let showModal = false;
+  const dispatch = createEventDispatcher();
 
   function navigateTo(event) {
-    console.log(event);
-    showModal = true;
+    dispatch('navigate-to', event);
   }
+  
+
 </script>
 
 <section class="main">

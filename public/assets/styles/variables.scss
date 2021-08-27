@@ -17,7 +17,7 @@ $black: #111;
 $slate: #222222;
 $gray: rgb(51, 51, 51);
 $lightGray: #404040;
-$silver: rgb(136, 136, 136);
+$silver: #888888;
 $egg: #f8f8f8;
 
 /* --- Fonts --- */
@@ -29,10 +29,25 @@ $mainFont: 'IBM Plex Mono', monospace;
     height: $height;
 }
 
+@mixin maxWidthHeight($width, $height) {
+    max-width: $width;
+    max-height: $height;
+}
+
+@mixin minWidthHeight($width, $height) {
+    min-width: $width;
+    min-height: $height;
+}
 @mixin margin($topBottom, $rightLeft) {
     margin: $topBottom $rightLeft;
 }
 
 @mixin padding($topBottom, $rightLeft) {
     padding: $topBottom $rightLeft;
+}
+
+@mixin boxShadow {
+    box-shadow: 0 2px 15px -5px rgba($color: $egg, $alpha: 0.2);
+    -webkit-box-shadow: 0 2px 15px -5px rgba($color: $egg, $alpha: 0.2);
+    -moz-box-shadow: 0 2px 15px -5px rgba($color: $egg, $alpha: 0.2);
 }

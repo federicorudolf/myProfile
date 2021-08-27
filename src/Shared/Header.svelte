@@ -31,8 +31,9 @@
   .header {
       position: fixed;
       top: 0;
-      box-shadow: 0 2px 15px -5px rgba($color: $egg, $alpha: 0.2);
       backdrop-filter: blur(2px);
+      border-bottom: 1px white;
+      @include boxShadow;
       @include widthHeight(100%, 60px);
       @include padding(0, 2em);
 
