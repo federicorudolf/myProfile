@@ -16,7 +16,7 @@
 </script>
 
 <header class="header d-flex flex-row justify-content-between align-items-center">
-  <a href=""> Testing </a>
+  <a href="/"> Testing </a>
   <ul class="header__menu d-flex flex-row justify-between align-items-center">
     { #each headerItems as headerItem }
       <li class="header__menu__item">
