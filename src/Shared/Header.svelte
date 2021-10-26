@@ -1,16 +1,18 @@
 <script>
   import { createEventDispatcher } from 'svelte';
+  export let language;
 
   const headerItems = [
     'inicio',
     'skills',
     'trabajos',
-    'certificados'
+    'certificados',
+    `${language}`
   ]; 
   const dispatch = createEventDispatcher();
 
   function headerItemClicked(item) {
-    dispatch('navigate-to', item)
+    dispatch('navigate-to', item);
   }
 
 </script>

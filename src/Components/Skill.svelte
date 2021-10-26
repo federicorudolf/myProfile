@@ -1,22 +1,54 @@
 <script>
   import { fly } from 'svelte/transition';
-  import { onMount } from 'svelte'
+  import { onMount } from 'svelte';
+  import { Chart, registerables } from 'chart.js';
   export let skillTitle;
   export let skillLevel;
   export let skillLevelText;
   export let fadeInCoords;
   export let id;
 
+  Chart.register(...registerables);
+
   let context, canvas;
 
-  onMount( () => {
+  onMount(() => {
     canvas = document.getElementById(`skillCanvas_${id}`);
     let skillContainer = document.getElementsByClassName('skillContainer')[0];
     canvas.width = 300;
     canvas.height = 300;
     context = canvas.getContext('2d');
-    drawShape('base');
-    drawShape('fill')
+    let skillChart = new Chart(canvas, {
+      type: 'radar',
+      data: {
+        labels: [skillLevelText],
+        datasets: [
+          {
+            data: [ skillLevel, 100 - skillLevel ],
+            label: skillTitle,
+            backgroundColor: [
+              '#ff3e00',
+              '#404040'
+            ],
+            borderColor: 'transparent',
+            rotation: 230
+          }
+        ]
+      },
+      options: {
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            enabled: false
+          }
+        }
+      }
+    });
+
+/*     drawShape('base');
+    drawShape('fill'); */
   });
 
   function drawShape(type) {

@@ -1,5 +1,6 @@
 <script>
   import Circle from '../Models/Circle';
+  import { onMount } from 'svelte';
 
   const RADIUS = 25 * 0.3;
   const MOBILE_CIRCLES = 150;
@@ -9,8 +10,8 @@
   const MAXFORCE = .2;
 	const MINFORCE = -.2;
   const mouse = {
-    x: undefined,
-    y: undefined
+    x: 0,
+    y: 0
   }
   const screen = {
     width: undefined,
@@ -61,6 +62,7 @@ const colors = [
       let color = colors[~~range(0, colors.length - 1)];
       let x = ~~range((0 + 2 * RADIUS), canvas.width - (RADIUS * 2));
       let y = ~~range((0 + 2 * RADIUS), canvas.height - (RADIUS * 2));
+      console.log(x, y);
       let dx = range(-0.75, 0.75);
       let dy = range(-0.75, 0.75);
       let newCircle = new Circle(x, y, dx, dy, canvas, RADIUS, color);
@@ -159,21 +161,29 @@ const colors = [
     mouse.x = e.x;
     mouse.y = e.y;
   });
+
+  window.addEventListener('touchstart', (e) => {
+    console.log(e);
+    mouse.x = e.touches[0].clientX;
+    mouse.y = e.touches[0].clientY;
+  });
+
+  onMount(() => {
+    setTimeout(() => {
+      screen.height = window.innerHeight;
+      screen.width = window.innerWidth;
+      if ( screen.width < MOBILE_SIZE ) {
+        isMobile = true;
+        setupAnimation(MOBILE_CIRCLES);
+      } else {
+        setupAnimation(DESKTOP_CIRCLES);
+      }
+      updateAnimation();
+    }, 1000);
+  });
     
-  setTimeout(() => {
-    screen.height = window.innerHeight;
-    screen.width = window.innerWidth;
-    if ( screen.width < MOBILE_SIZE ) {
-      isMobile = true;
-      setupAnimation(MOBILE_CIRCLES);
-    } else {
-      setupAnimation(DESKTOP_CIRCLES);
-    }
-    updateAnimation();
-  }, 1000);
 
   window.addEventListener('resize', () => {
-    console.log('resizing', window.innerWidth);
     screen.height = canvas.height = window.innerHeight;
     screen.width = canvas.width = window.innerWidth;
     context = canvas.getContext('2d');

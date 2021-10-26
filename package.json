@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "rollup -c",
-    "dev": "rollup -c -w",
+    "dev": "HOST=0.0.0.0 rollup -c -w",
     "start": "sirv public --no-clear"
   },
   "devDependencies": {
@@ -20,6 +20,7 @@
     "svelte-preprocess": "^4.7.3"
   },
   "dependencies": {
+    "chart.js": "^3.5.1",
     "firebase": "^8.8.1",
     "sirv-cli": "^1.0.0"
   }

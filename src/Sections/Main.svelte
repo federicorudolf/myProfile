@@ -1,8 +1,9 @@
 <script>
   import Header from '../Shared/Header.svelte';
   import { createEventDispatcher } from 'svelte';
-
   export let title;
+  let lang = 'ES';
+  
   const dispatch = createEventDispatcher();
 
   function navigateTo(event) {
@@ -13,7 +14,7 @@
 </script>
 
 <section class="main">
-  <Header on:navigate-to="{ navigateTo }" />
+  <Header language="ES" on:navigate-to="{ navigateTo }" />
   <h1 class="main__title"> { title.length ? title : '' } </h1>
 </section>
 
@@ -30,9 +31,31 @@
 
     &__title {
       color: $mainColor;
-      font-size: 10em;
+      font-size: 5em;
       font-weight: 300;
       text-shadow: 0px 0px 10px $lightGray;
     }
   }
+
+	@media screen and (min-width: $medium) {
+		.main {
+      &__title {
+        font-size: 7em;
+      }
+		}
+	}
+	@media screen and (min-width: $large) {
+		.main {
+      &__title {
+        font-size: 8.5em;
+      }
+		}
+	}
+	@media screen and (min-width: $extra_large) {
+		.main {
+      &__title {
+        font-size: 10em;
+      }
+		}
+	}
 </style>
