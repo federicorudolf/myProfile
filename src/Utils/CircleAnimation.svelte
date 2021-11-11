@@ -62,7 +62,6 @@ const colors = [
       let color = colors[~~range(0, colors.length - 1)];
       let x = ~~range((0 + 2 * RADIUS), canvas.width - (RADIUS * 2));
       let y = ~~range((0 + 2 * RADIUS), canvas.height - (RADIUS * 2));
-      console.log(x, y);
       let dx = range(-0.75, 0.75);
       let dy = range(-0.75, 0.75);
       let newCircle = new Circle(x, y, dx, dy, canvas, RADIUS, color);
@@ -181,14 +180,13 @@ const colors = [
       updateAnimation();
     }, 1000);
   });
-    
 
   window.addEventListener('resize', () => {
     screen.height = canvas.height = window.innerHeight;
     screen.width = canvas.width = window.innerWidth;
     context = canvas.getContext('2d');
 
-    if ( screen.width < MOBILE_SIZE && !isMobile  ) {
+    if (screen.width < MOBILE_SIZE && !isMobile) {
       resetAnimation();
       isMobile = true;
       setupAnimation(MOBILE_CIRCLES);
@@ -198,6 +196,5 @@ const colors = [
       setupAnimation(DESKTOP_CIRCLES);
     }
   });
-
 
 </script>

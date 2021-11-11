@@ -1,9 +1,19 @@
 <script>
+  console.log(navigator, navigator.serviceWorker);
+  if ('serviceWorker' in navigator) {
+    console.log('registering');
+    navigator.serviceWorker
+      .register('./sw.js')
+      .then(
+        res => console.log('serviceWorker registered', res),
+        err => console.log(err)
+      )
+  }
   import CircleAnimation from './Utils/CircleAnimation.svelte';
   import Main from './Sections/Main.svelte';
   import Skills from './Sections/Skills.svelte';
 
-  var title = '';
+  let title = '';
   const TIME = 200;
 
   function* iterateGreetings () {
@@ -56,6 +66,8 @@
   writeTitles();
 
 </script>
+
+<svelte:body></svelte:body>
 
 <main class="mainContainer">
   <CircleAnimation />
