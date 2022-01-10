@@ -1,3 +1,4 @@
 import { writable } from 'svelte/store';
 
-export let btcData = writable({});
+export const btcData = writable({});
+export const isMobile = writable(false);

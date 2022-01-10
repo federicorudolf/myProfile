@@ -1,7 +1,7 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  import { btcData } from './../Store/store';
-  export let language, isMobile;
+  import { btcData, isMobile } from './../Store/store';
+  export let language;
 
   const headerItems = [
     'inicio',
@@ -12,10 +12,13 @@
   ]; 
   const dispatch = createEventDispatcher();
   let btc;
+  let mobileDevice;
 
+  isMobile.subscribe(data => {
+    mobileDevice = data;
+  })
   btcData.subscribe(data => {
     btc = data;
-    console.log(btc);
   });
   function headerItemClicked(item) {
     dispatch('navigate-to', item);
@@ -36,7 +39,7 @@
     <span class="ps-2 header__menu__item"> $ { Math.floor(+btc.price) }</span>
   </div>
 
-  {#if !isMobile}
+  {#if !mobileDevice}
     <ul class="header__menu d-flex flex-row justify-between align-items-center">
       { #each headerItems as headerItem }
         <li class="header__menu__item">

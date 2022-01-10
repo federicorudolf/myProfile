@@ -13,10 +13,9 @@
   import Skills from './Sections/Skills.svelte';
   import { getBitcoinPrice } from './Services/main.service';
   import { onMount } from 'svelte';
-  import { btcData } from './Store/store';
+  import { btcData, isMobile } from './Store/store';
 
   let title = '';
-  let isMobile = window.innerWidth < 768;
   const TIME = 200;
 
   function* iterateGreetings () {
@@ -67,14 +66,14 @@
   }
 
   onMount(() => {
+    isMobile.update(() => window.innerWidth < 768);
     getBitcoinPrice()
       .then(res => {
         btcData.update(() => ({ ...res.data[0] }))
-        console.log(res, btcData);
       })
       .catch(err => console.log(err));
     window.addEventListener('resize', () => {
-      isMobile = window.innerWidth < 768;
+      isMobile.update(() => window.innerWidth < 768);
     })
   });
 
@@ -85,8 +84,8 @@
 <svelte:body></svelte:body>
 
 <main class="mainContainer">
-  <CircleAnimation isMobile/>
-  <Main on:navigate-to="{ navigateTo }" title={title} isMobile />
+  <CircleAnimation />
+  <Main on:navigate-to="{ navigateTo }" title={title} />
   <Skills />
 </main>
 

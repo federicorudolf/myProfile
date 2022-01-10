@@ -1,7 +1,7 @@
 <script>
   import Header from '../Shared/Header.svelte';
   import { createEventDispatcher } from 'svelte';
-  export let title, isMobile;
+  export let title;
   let lang = 'ES';
   
   const dispatch = createEventDispatcher();
@@ -14,7 +14,7 @@
 </script>
 
 <section class="main">
-  <Header language="ES" on:navigate-to="{ navigateTo }" isMobile />
+  <Header language="ES" on:navigate-to="{ navigateTo }" />
   <h1 class="main__title"> { title.length ? title : '' } </h1>
 </section>
 
