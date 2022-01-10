@@ -1,6 +1,7 @@
 <script>
   import { createEventDispatcher } from 'svelte';
-  export let language;
+  import { btcData } from './../Store/store';
+  export let language, isMobile;
 
   const headerItems = [
     'inicio',
@@ -10,7 +11,12 @@
     `${language}`
   ]; 
   const dispatch = createEventDispatcher();
+  let btc;
 
+  btcData.subscribe(data => {
+    btc = data;
+    console.log(btc);
+  });
   function headerItemClicked(item) {
     dispatch('navigate-to', item);
   }
@@ -18,14 +24,27 @@
 </script>
 
 <header class="header d-flex flex-row justify-content-between align-items-center">
+  <button class="menu_button">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+      <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+    </svg>
+  </button>
   <a href="/"> FJR </a>
-  <ul class="header__menu d-flex flex-row justify-between align-items-center">
-    { #each headerItems as headerItem }
-      <li class="header__menu__item">
-        <button on:click="{ () => headerItemClicked(headerItem) }">{ headerItem } </button>
-      </li>
-    { /each }
-  </ul>
+
+  <div class="d-flex flex-row justify-content-center align-items-center">
+    <img src="{btc.logo_url}" width="25px" alt="">
+    <span class="ps-2 header__menu__item"> $ { Math.floor(+btc.price) }</span>
+  </div>
+
+  {#if !isMobile}
+    <ul class="header__menu d-flex flex-row justify-between align-items-center">
+      { #each headerItems as headerItem }
+        <li class="header__menu__item">
+          <button on:click="{ () => headerItemClicked(headerItem) }">{ headerItem } </button>
+        </li>
+      { /each }
+    </ul>
+  {/if}
 </header>
 
 <style lang="scss">

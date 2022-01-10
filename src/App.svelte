@@ -1,5 +1,4 @@
 <script>
-  console.log(navigator, navigator.serviceWorker);
   if ('serviceWorker' in navigator) {
     console.log('registering');
     navigator.serviceWorker
@@ -12,8 +11,12 @@
   import CircleAnimation from './Utils/CircleAnimation.svelte';
   import Main from './Sections/Main.svelte';
   import Skills from './Sections/Skills.svelte';
+  import { getBitcoinPrice } from './Services/main.service';
+  import { onMount } from 'svelte';
+  import { btcData } from './Store/store';
 
   let title = '';
+  let isMobile = window.innerWidth < 768;
   const TIME = 200;
 
   function* iterateGreetings () {
@@ -63,6 +66,18 @@
 
   }
 
+  onMount(() => {
+    getBitcoinPrice()
+      .then(res => {
+        btcData.update(() => ({ ...res.data[0] }))
+        console.log(res, btcData);
+      })
+      .catch(err => console.log(err));
+    window.addEventListener('resize', () => {
+      isMobile = window.innerWidth < 768;
+    })
+  });
+
   writeTitles();
 
 </script>
@@ -70,8 +85,8 @@
 <svelte:body></svelte:body>
 
 <main class="mainContainer">
-  <CircleAnimation />
-  <Main on:navigate-to="{ navigateTo }" title={title} />
+  <CircleAnimation isMobile/>
+  <Main on:navigate-to="{ navigateTo }" title={title} isMobile />
   <Skills />
 </main>
 

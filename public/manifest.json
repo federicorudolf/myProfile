@@ -15,7 +15,13 @@
       "src": "/assets/media/icons/logo.png",
       "type": "image/png",
       "sizes": "166x222"
+    },
+    {
+      "src": "/assets/media/icons/logo_square.png",
+      "type": "image/png",
+      "sizes": "250x250"
     }
+
   ]
 
 }
