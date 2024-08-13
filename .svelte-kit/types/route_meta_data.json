@@ -2,5 +2,17 @@
 	"/": [
 		"src/routes/+layout.server.ts",
 		"src/routes/+layout.server.ts"
+	],
+	"/inicio": [
+		"src/routes/+layout.server.ts"
+	],
+	"/posts": [
+		"src/routes/+layout.server.ts"
+	],
+	"/skills": [
+		"src/routes/+layout.server.ts"
+	],
+	"/trabajos": [
+		"src/routes/+layout.server.ts"
 	]
 }

@@ -37,7 +37,19 @@ export default class Circle {
 		if (this.connected){
 		  this.context!.fillStyle = this.color;
 		} else {
-		  this.context!.fillStyle = "rgba(255, 62, 0, 1.0)";
+			const gradient = this.context!.createRadialGradient(this.x, this.y, 1/8 * this.radius, this.x, this.y, 2 * this.radius);
+
+			// Add color stops to the gradient
+			// River gradient
+			// gradient.addColorStop(0.05, "#eb192e");
+			// gradient.addColorStop(1, "#ffffff");
+			// gradient.addColorStop(1, "#000000");
+			gradient.addColorStop(0, "rgb(16, 185, 129)");
+			gradient.addColorStop(1, "rgb(99, 102, 241)");
+
+			// Set the gradient as the fillStyle
+			this.context!.fillStyle = gradient;
+		  // this.context!.fillStyle = "rgba(255, 62, 0, 1.0)";
 		}
 		this.context!.beginPath();
 		this.context!.arc(this.x, this.y, this.radius, 0, 3 * Math.PI);

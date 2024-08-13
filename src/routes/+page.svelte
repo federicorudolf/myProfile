@@ -53,12 +53,28 @@
     }
   }
 
+  const scrollDown = () => {
+    console.log('scrolling');
+    
+    window.scrollBy({
+      top: window.innerHeight * 0.95,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }
+
   writeTitles();
 </script>
 
-<section class="main">
+<section class="main relative">
   <Circles />
   <h1 class="gradient-text text-8xl"> { title.length ? title : '' } </h1>
+  <button on:click={scrollDown} class="btn btn-circle btn-outline absolute mx-auto bottom-3 h-16 w-16 text-center"> 
+    <img src="/icons/arrow_down.svg" alt="arrow down">
+  </button>
+</section>
+<section class="min-h-screen flex flex-column justify-center content-center">
+
 </section>
 
 <style>
