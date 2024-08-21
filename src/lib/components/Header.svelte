@@ -17,24 +17,25 @@
 </script>
 
 <header class="header flex flex-row justify-between items-center content-center text-gray-400">
-  <div class="flex flex-row justify-content-center items-center gap-2 flex-1">
-    <img src="/icons/btc.svg" width="25px" alt="">
-    <span class="ps-2 header__menu__item leading-6 text-gray-500"> $ { $page.data.btcPrice }</span>
-  </div>
-
   {#if $isMobile}
     <button class="menu__button">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
         <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
       </svg>
     </button>
-  {/if}
+    <a href="/" class="header__menu__homeButton mx-auto">
+      <img class="hidden" src="/icons/logo.png" width="25px" alt="">
+    </a>
+  {:else}
+    <div class="flex flex-row justify-content-center items-center gap-2 flex-1">
+      <img src="/icons/btc.svg" width="25px" alt="">
+      <span class="ps-2 header__menu__item leading-6 text-gray-500"> $ { $page.data.btcPrice }</span>
+    </div>
 
-  <a href="/" class="header__menu__homeButton mx-auto">
-    <img class="hidden" src="/icons/logo.png" width="25px" alt="">
-  </a>
+    <a href="/" class="header__menu__homeButton mx-auto">
+      <img class="hidden" src="/icons/logo.png" width="25px" alt="">
+    </a>
 
-  {#if !$isMobile}
     <ul class="header__menu flex flex-row justify-center gap-5 align-items-center flex-1">
       {#each headerItems as headerItem}
         <li class="header__menu__item">
@@ -47,7 +48,9 @@
         </button>
       </li>
     </ul>
+
   {/if}
+
 </header>
 
 <style>

@@ -68,7 +68,7 @@
 
 <section class="main relative">
   <Circles />
-  <h1 class="gradient-text text-8xl"> { title.length ? title : '' } </h1>
+  <h1 class="gradient-text text-6xl md:text-8xl xl:text-12xl whitespace-nowrap"> { title.length ? title : '' } </h1>
   <button on:click={scrollDown} class="btn btn-circle btn-outline absolute mx-auto bottom-3 h-16 w-16 text-center"> 
     <img src="/icons/arrow_down.svg" alt="arrow down">
   </button>
