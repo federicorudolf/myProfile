@@ -27,16 +27,16 @@
       <img class="hidden" src="/icons/logo.png" width="25px" alt="">
     </a>
   {:else}
-    <div class="flex flex-row justify-content-center items-center gap-2 flex-1">
-      <img src="/icons/btc.svg" width="25px" alt="">
+    <div class="flex flex-row justify-start items-center gap-2 flex-1">
+      <img src="/icons/btc.svg" width="35px" alt="">
       <span class="ps-2 header__menu__item leading-6 text-gray-500"> $ { $page.data.btcPrice }</span>
     </div>
 
     <a href="/" class="header__menu__homeButton mx-auto">
-      <img class="hidden" src="/icons/logo.png" width="25px" alt="">
+      <img class="hidden" src="/icons/logo.png" width="35px" alt="">
     </a>
 
-    <ul class="header__menu flex flex-row justify-center gap-5 align-items-center flex-1">
+    <ul class="header__menu flex flex-row justify-end gap-5 align-items-center flex-1">
       {#each headerItems as headerItem}
         <li class="header__menu__item">
           <a href="/{headerItem}"> { headerItem } </a>
@@ -82,11 +82,16 @@
     cursor: pointer;
   }
   .header__menu__homeButton {
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
     background-image: url(/icons/logo.png);
     background-size: cover;
     background-position: center;
     border-radius: 50%;
+    transition: all 300ms ease-in-out;
+  }
+
+  .header__menu__homeButton:hover {
+    transform: scale(1.2);
   }
 </style>

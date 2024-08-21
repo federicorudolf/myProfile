@@ -54,9 +54,8 @@
   }
 
   const scrollDown = () => {
-    console.log('scrolling');
-    
-    window.scrollBy({
+    console.log('scrolling', window.innerHeight, window.scrollY);
+    window.scrollTo({
       top: window.innerHeight * 0.95,
       left: 0,
       behavior: 'smooth'
