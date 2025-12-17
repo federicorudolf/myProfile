@@ -101,9 +101,9 @@ const colors = [
       circle_1.fy = Math.max(MINFORCE, Math.min(circle_1.fy, MAXFORCE));
 
       if (distance < 10 * RADIUS && distance > 5 * RADIUS) {
-        circle_1.radius += 0.5;
+        circle_1.radius += 0.25;
       } else if (distance < 5 * RADIUS) {
-        circle_1.radius += 1;
+        circle_1.radius += 0.5;
       } else {
         circle_1.radius = RADIUS;
       }
@@ -204,4 +204,17 @@ const colors = [
   });
 
 </script>
+
+<canvas id="animation"></canvas>
 <slot></slot>
+
+<style>
+  #animation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+</style>

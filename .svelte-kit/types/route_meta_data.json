@@ -9,6 +9,9 @@
 	"/posts": [
 		"src/routes/+layout.server.ts"
 	],
+	"/projects": [
+		"src/routes/+layout.server.ts"
+	],
 	"/skills": [
 		"src/routes/+layout.server.ts"
 	],

@@ -12,7 +12,7 @@
   /* --- Colors --- */
   --mainColor: #ff3e00;
   --mainBackgroundColor: #222429;
-  --red: #ed1c0d;
+  --red: #ed1b2e;
   --orange: #ed7300;
   --purple: #663382;
   --blue: #3d8cde;
@@ -33,20 +33,24 @@
 
 }
 
-html, body {
+html {
   position: relative;
   width: 100%;
-  height: 100%;
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 body {
-  background-color: #222429;
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
   margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  background-color: #222429;
   box-sizing: border-box;
-  font-family: 'IBM Plex Mono', monospace
+  font-family: 'IBM Plex Mono', monospace;
 }
 
 canvas {
@@ -71,7 +75,7 @@ h2, h3, h4, h5, h6, p, span, a {
   font-family: "Poppins", sans-serif;
 }
 
-.gradient-text {
+/* .gradient-text {
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
 
   --tw-gradient-to-position: 90%;
@@ -83,4 +87,29 @@ h2, h3, h4, h5, h6, p, span, a {
   background-clip: text;
   color: #0000;
   -webkit-background-clip: text;
+} */
+
+
+.gradient-text {
+  background-image: linear-gradient(to right, var(--tw-gradient-stops));
+
+  --tw-gradient-from-position: 0%;
+  --tw-gradient-mid-start: 45%;
+  --tw-gradient-mid-end: 55%;
+  --tw-gradient-to-position: 100%;
+
+  --tw-gradient-from: #FFF var(--tw-gradient-from-position);
+  --tw-gradient-mid-1: #ED1B2E var(--tw-gradient-mid-start);
+  --tw-gradient-mid-2: #ED1B2E var(--tw-gradient-mid-end);
+  --tw-gradient-to: #FFF var(--tw-gradient-to-position);
+
+  --tw-gradient-stops:
+    var(--tw-gradient-from),
+    var(--tw-gradient-mid-1),
+    var(--tw-gradient-mid-2),
+    var(--tw-gradient-to);
+
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
 }

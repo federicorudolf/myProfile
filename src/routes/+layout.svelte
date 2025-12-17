@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { PageData } from './$types';
   import Header from '$lib/components/Header.svelte';
+  import Footer from '$lib/components/Footer.svelte';
   import { onMount } from 'svelte';
   import { isMobile } from '$lib/helpers';
   import '../app.css';
@@ -18,5 +19,6 @@
   $isMobile;
 </script>
 
-<Header lang="ES" />
+<Header />
 <slot />
+<Footer />

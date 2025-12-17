@@ -15,6 +15,8 @@ export default class Circle {
 	color;
 	connected = 0;
 	enlargeFactor = 0;
+	unconnectedColor = '';
+	colorArray = ['#ED1B2E', '#FFF'];
 	
 	constructor(x: number, y: number, dx: number, dy: number, canvas: HTMLCanvasElement, radius: number, color: string) {
 		this.x = x;
@@ -31,25 +33,23 @@ export default class Circle {
 		this.color = color;
 		this.connected = 0;
 		this.enlargeFactor = 0;
+
+		this.unconnectedColor = !this.connected ? this.colorArray[Math.floor(Math.random() * this.colorArray.length)] : '';
 	}
 
 	draw() {
 		if (this.connected){
 		  this.context!.fillStyle = this.color;
 		} else {
-			const gradient = this.context!.createRadialGradient(this.x, this.y, 1/8 * this.radius, this.x, this.y, 2 * this.radius);
+			// const gradient = this.context!.createRadialGradient(this.x, this.y, this.radius / 2, this.x, this.y, this.radius);
 
-			// Add color stops to the gradient
-			// River gradient
-			// gradient.addColorStop(0.05, "#eb192e");
-			// gradient.addColorStop(1, "#ffffff");
-			// gradient.addColorStop(1, "#000000");
-			gradient.addColorStop(0, "rgb(16, 185, 129)");
-			gradient.addColorStop(1, "rgb(99, 102, 241)");
+			// // Add color stops to the gradient
+			// gradient.addColorStop(0, "rgb(16, 185, 129)");
+			// gradient.addColorStop(1, "rgb(99, 102, 241)");
 
-			// Set the gradient as the fillStyle
-			this.context!.fillStyle = gradient;
-		  // this.context!.fillStyle = "rgba(255, 62, 0, 1.0)";
+			// // Set the gradient as the fillStyle
+			// this.context!.fillStyle = gradient;
+			this.context!.fillStyle = this.unconnectedColor;
 		}
 		this.context!.beginPath();
 		this.context!.arc(this.x, this.y, this.radius, 0, 3 * Math.PI);

@@ -558,17 +558,25 @@ video {
   display: contents;
 }
 
-html, body {
+html {
   position: relative;
   width: 100%;
-  height: 100%;
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 body {
-  background-color: #222429;
+  position: relative;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+body {
+  background-color: #000;
   margin: 0;
   box-sizing: border-box;
   font-family: 'IBM Plex Mono', monospace
@@ -583,20 +591,20 @@ h1 {
   font-family: 'IBM Plex Mono', monospace;
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
   --tw-gradient-to-position: 90%;
-  --tw-gradient-via-position: 30%;
-  --tw-gradient-stops: var(--tw-gradient-from), #0ea5e9 var(--tw-gradient-via-position), var(--tw-gradient-to);
-  --tw-gradient-from: #6366f1 var(--tw-gradient-from-position);
-  --tw-gradient-to: #10b981 var(--tw-gradient-to-position);
+  --tw-gradient-via-position: 50%;
+  --tw-gradient-stops: var(--tw-gradient-from), #E2211C var(--tw-gradient-via-position), var(--tw-gradient-to);
+  --tw-gradient-from: #FFF var(--tw-gradient-from-position);
+  --tw-gradient-to: #B2B4B2 var(--tw-gradient-to-position);
   background-clip: text;
   -webkit-background-clip: text;
-  /* color: rgb(250 250 250 / var(--tw-text-opacity)); */
+  color: rgb(250 250 250 / var(--tw-text-opacity));
 }
 
 h2, h3, h4, h5, h6, p, span, a {
   font-family: "Poppins", sans-serif;
   /* color: rgb(250 250 250 / var(--tw-text-opacity)); */
 }
-
+/* 
 .gradient-text {
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
   --tw-gradient-to-position: 90%;
@@ -607,4 +615,28 @@ h2, h3, h4, h5, h6, p, span, a {
   background-clip: text;
   color: #0000;
   -webkit-background-clip: text;
+} */
+
+.gradient-text {
+  background-image: linear-gradient(to right, var(--tw-gradient-stops));
+
+  --tw-gradient-from-position: 0%;
+  --tw-gradient-mid-start: 45%;
+  --tw-gradient-mid-end: 55%;
+  --tw-gradient-to-position: 100%;
+
+  --tw-gradient-from: #FFF var(--tw-gradient-from-position);
+  --tw-gradient-mid-1: #ED1B2E var(--tw-gradient-mid-start);
+  --tw-gradient-mid-2: #ED1B2E var(--tw-gradient-mid-end);
+  --tw-gradient-to: #FFF var(--tw-gradient-to-position);
+
+  --tw-gradient-stops:
+    var(--tw-gradient-from),
+    var(--tw-gradient-mid-1),
+    var(--tw-gradient-mid-2),
+    var(--tw-gradient-to);
+
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
 }
