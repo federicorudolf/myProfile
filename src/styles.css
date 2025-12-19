@@ -642,7 +642,8 @@ h2, h3, h4, h5, h6, p, span, a {
 .section-title {
   font-family: 'NB International';
   font-weight: 400;
-  font-size: 2.5rem;
+  font-size: 3.5rem;
+  line-height: 3.5rem;
   color: var(--white);
   -webkit-text-stroke: 1px var(--red);
   text-stroke: 1px var(--red);
@@ -652,11 +653,15 @@ h2, h3, h4, h5, h6, p, span, a {
 @media (min-width: 768px) {
   .section-title {
     font-size: 3.75rem;
+    line-height: 3.75rem;
+
   }
 }
 
 @media (min-width: 1024px) {
   .section-title {
     font-size: 5rem;
+    line-height: 5rem;
+
   }
 }
