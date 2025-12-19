@@ -10,6 +10,13 @@ export const translations = {
     hero: {
       greetings: ['Hello', 'Hi', 'Welcome', 'Greetings']
     },
+    about: {
+      title: 'About Me',
+      name: 'I\'m Fede ',
+      intro: 'a software builder with a product mindset.',
+      description: 'I’m a software developer, passionate about AI, problem solving and exploring new ideas. I thrive on tackling complex challenges, turning ideas into real-world solutions with efficiency and precision. Eager to deepen my expertise in applied AI to drive innovation and results',
+      contactButton: 'Lets talk'
+    },
     experiences: [
       {
         company: 'LaunchpadLab',
@@ -197,6 +204,13 @@ export const translations = {
     },
     hero: {
       greetings: ['Hola', 'Bienvenido', 'Saludos']
+    },
+    about: {
+      title: 'Sobre Mí',
+      name: 'Soy Fede',
+      intro: 'un desarrollador de software con mentalidad de producto.',
+      description: 'Soy desarrollador de software, apasionado por la IA, la resolución de problemas y la exploración de nuevas ideas. Disfruto enfrentar desafíos complejos, transformando ideas en soluciones reales con eficiencia y precisión. Busco profundizar mi experiencia en IA aplicada para impulsar la innovación y los resultados',
+      contactButton: 'Charlemos!'
     },
     experiences: [
       {

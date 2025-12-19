@@ -5,11 +5,17 @@
   import Circles from '$lib/components/Circles.svelte';
   import type { PageData } from './$types';
   import { t, currentLanguage } from '$lib/i18n/store';
-  import { skills, experiences as experiencesData, projects as projectsData, publications as publicationsData, statusColors } from '$lib/constants';
+  import { skills, experiences as experiencesData, projects as projectsData, statusColors } from '$lib/constants';
   import { type MediumArticle } from '$lib/services';
-  import { generateRandomColors, getRandomBrandColor, getOppositeBrandColor, brandColorsArray } from '$lib/utils/colorRandomizer';
+  import { generateRandomColors, getRandomBrandColor, getOppositeBrandColor } from '$lib/utils/colorRandomizer';
 
   export let data: PageData;
+
+  const linkColors = {
+    linkedin: getRandomBrandColor(),
+    github: getRandomBrandColor(),
+    contact: getRandomBrandColor()
+  };
 
   const { mediumArticles } = data;
 
@@ -30,15 +36,10 @@
     longDescription: $t.projectsList[i]?.longDescription || proj.longDescription
   }));
 
-  $: publications = publicationsData.map((pub, i) => ({
-    ...pub,
-    title: $t.publications[i]?.title || pub.title,
-    description: $t.publications[i]?.description || pub.description,
-    tags: $t.publications[i]?.tags || pub.tags
-  }));
-
   let title = '';
   const TIME = 200;
+  let visible = false;
+  let nameScrollProgress = 0;
 
   function* iterateGreetings () {
     let greetings = [
@@ -238,11 +239,54 @@
       }
     };
 
+    requestAnimationFrame(() => {
+      visible = true;
+    });
+
+    // Setup scroll listener for progressive name animation
+    const nameElement = document.querySelector('.name-hover') as HTMLElement;
+
+    const handleScroll = () => {
+      if (!nameElement) return;
+
+      const rect = nameElement.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+
+      // Calculate when element enters viewport (bottom of element reaches bottom of viewport)
+      // to when it leaves viewport (top of element reaches top of viewport)
+      const elementTop = rect.top;
+      const elementBottom = rect.bottom;
+      // const elementHeight = rect.height;
+
+      // Start animation when element is at 80% of viewport height
+      // Complete when element reaches 20% of viewport height
+      const startTrigger = windowHeight * 0.8;
+      const endTrigger = windowHeight * 0.2;
+
+      let progress = 0;
+
+      if (elementBottom <= startTrigger && elementTop >= endTrigger) {
+        // Element is in the animation range
+        const totalDistance = startTrigger - endTrigger;
+        const currentDistance = startTrigger - elementBottom;
+        progress = Math.max(0, Math.min(100, (currentDistance / totalDistance) * 100));
+      } else if (elementTop < endTrigger) {
+        // Element has passed the end trigger
+        progress = 100;
+      }
+
+      nameScrollProgress = progress;
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Initial call
+
     document.addEventListener('click', handleAnchorClick);
 
     return () => {
       Object.values(categoryCharts).forEach(chart => chart.destroy());
       document.removeEventListener('click', handleAnchorClick);
+      window.removeEventListener('scroll', handleScroll);
     };
   });
 
@@ -320,16 +364,38 @@
 <!-- Hero Section -->
 <section id="inicio" class="main relative">
   <Circles />
-  <h1 class="gradient-text text-6xl md:text-8xl xl:text-12xl whitespace-nowrap"> { title.length ? title : '' } </h1>
+  <h1 class="text-6xl md:text-8xl xl:text-12xl whitespace-nowrap titles"> { title.length ? title : '' } </h1>
   <button on:click={scrollDown} class="scroll-button btn btn-circle btn-outline absolute mx-auto bottom-3 h-16 w-16 text-center">
     <img src="/icons/arrow_down.svg" alt="arrow down">
   </button>
 </section>
 
+<!-- About me -->
+<section id="about" class="about-section py-20 px-4 md:px-8 max-w-4xl mx-auto ">
+  <h1 class="text-4xl md:text-6xl font-bold mb-12 section-title text-center about-title {visible ? 'visible' : ''}">{$t.about.title}</h1>
+  <div class="about-content">
+    <p class="intro name-hover" style="background-position: {nameScrollProgress}% 0%;"> {$t.about.name} </p>
+    <p class="intro ">
+      {$t.about.intro}
+    </p>
+    <p class="description">
+      {$t.about.description}
+    </p>
+    <!-- Contact Button -->
+    <a
+      href="mailto:federicorudolf@gmail.com"
+      class="contact-button px-6 py-3 rounded-lg font-semibold transition-all"
+      style="--contact-color: {linkColors.contact}"
+    >
+      {$t.about.contactButton}
+    </a>
+  </div>
+</section>
+
 <!-- Skills Section -->
 <section id="skills" class="skills-section min-h-screen py-20 px-4 md:px-8">
   <div class="max-w-7xl mx-auto">
-    <h1 class="text-4xl md:text-6xl font-bold mb-4 gradient-text text-center">{$t.skills.title}</h1>
+    <h1 class="text-4xl md:text-6xl font-bold mb-4 section-title text-center">{$t.skills.title}</h1>
     <p class="text-gray-400 text-center mb-12 max-w-2xl mx-auto">
       {$t.skills.subtitle}
     </p>
@@ -356,7 +422,7 @@
 <!-- Work Experience Section -->
 <section id="trabajos" class="experience-section min-h-screen py-20 px-4 md:px-8">
   <div class="max-w-7xl mx-auto">
-    <h1 class="text-4xl md:text-6xl font-bold mb-4 gradient-text text-center">{$t.experience.title}</h1>
+    <h1 class="text-4xl md:text-6xl font-bold mb-4 section-title text-center">{$t.experience.title}</h1>
     <p class="text-gray-400 text-center mb-12 max-w-2xl mx-auto">
       {$t.experience.subtitle}
     </p>
@@ -459,7 +525,7 @@
 <!-- Projects Section -->
 <section id="projects" class="projects-section min-h-screen py-20 px-4 md:px-8">
   <div class="max-w-7xl mx-auto">
-    <h1 class="text-4xl md:text-6xl font-bold mb-4 gradient-text text-center">{$t.projects.title}</h1>
+    <h1 class="text-4xl md:text-6xl font-bold mb-4 section-title text-center">{$t.projects.title}</h1>
     <p class="text-gray-400 text-center mb-16 max-w-2xl mx-auto">
       {$t.projects.subtitle}
     </p>
@@ -667,7 +733,7 @@
 <!-- Publications Section -->
 <section id="posts" class="publications-section min-h-screen py-20 px-4 md:px-8">
   <div class="max-w-6xl mx-auto">
-    <h1 class="text-4xl md:text-6xl font-bold mb-4 gradient-text text-center">{$t.posts.title}</h1>
+    <h1 class="text-4xl md:text-6xl font-bold mb-4 section-title text-center">{$t.posts.title}</h1>
     <p class="text-gray-400 text-center mb-12 max-w-2xl mx-auto">
       {$t.posts.subtitle}
     </p>
@@ -700,7 +766,7 @@
                   </a>
                 </h2>
                 <div class="flex flex-wrap items-center gap-2 text-xs text-gray-400">
-                  <span class="platform-badge bg-green-600 px-2 py-1 rounded-full text-white font-semibold">
+                  <span class="platform-badge bg-primary px-2 py-1 rounded-full text-white font-semibold">
                     Medium
                   </span>
                   <span>{formatPublicationDate(article.pubDate)}</span>
@@ -772,13 +838,102 @@
     min-height: 100vh;
   }
 
+  .titles {
+    z-index: 9;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 10em;
+    text-shadow: 2px 2px 2px var(--red);
+    text-stroke: 1px var(--red);
+    -webkit-text-stroke: 1px var(--red);
+  }
+
   .scroll-button {
     border: 1px solid var(--red);
-    transition: all ease-in-out;
+    transition: all 500ms ease-in-out;
   }
 
   .scroll-button:hover {
-    
+    transform: scale(1.1) rotate(360deg);
+    border: 1px solid #FFF;
+  }
+
+  .scroll-button:hover img {
+    filter: brightness(0) invert(1);
+  }
+
+  /* About Section Styles */
+  .about-section {
+    padding-top: 40px;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .about-content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .contact-button {
+    position: relative;
+    border: 2px solid #FFF;
+    color: #FFF;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      transparent 50%,
+      #E2211C 50%,
+      #E2211C 100%
+    );
+    background-size: 200% 100%;
+    background-position: 0% 0%;
+    transition: background-position 0.6s ease-in-out;
+    overflow: hidden;
+    margin-top: 20px;
+  }
+
+  .contact-button:hover {
+    background-position: 100% 0%;
+    transform: scale(1.05);
+  }
+
+  .intro {
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    line-height: 1.5;
+    margin: 0 auto 2rem;
+    max-width: 40ch;
+    color: #E5E7EB;
+    font-weight: 500;
+  }
+
+  .name-hover {
+    background: linear-gradient(
+      to right,
+      #FFF 0%,
+      #FFF 50%,
+      #E2211C 50%,
+      #E2211C 100%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: bold;
+    -webkit-text-stroke: 1px var(--red);
+    font-size: 3em;
+  }
+
+  .description {
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    line-height: 1.6;
+    margin: 0 auto;
+    max-width: 50ch;
+    color: #9CA3AF;
   }
 
   /* Skills Section Styles */
@@ -851,7 +1006,9 @@
   }
 
   .project-card {
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    position: relative;
+    border: 3px solid transparent;
   }
 
   .project-card:hover {

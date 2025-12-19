@@ -9,36 +9,32 @@ export const skills = [
 
   // ─── FRAMEWORKS & LIBRARIES ──────────────────
   { name: 'React', level: 85, category: 'Frameworks & Libraries' },
-  { name: 'Svelte', level: 94, category: 'Frameworks & Libraries' },
-  { name: 'Vue.js', level: 80, category: 'Frameworks & Libraries' },
+  { name: 'Svelte / kit', level: 92, category: 'Frameworks & Libraries' },
   { name: 'Ruby on Rails', level: 75, category: 'Frameworks & Libraries' },
-  { name: 'Vite', level: 82, category: 'Frameworks & Libraries' },
-  { name: 'Node.js', level: 85, category: 'Frameworks & Libraries' },
+  { name: 'Angular', level: 85, category: 'Frameworks & Libraries' },
+  { name: 'Node.js', level: 78, category: 'Frameworks & Libraries' },
 
   // ─── AI Tools ─────────────────
-  { name: 'Claude Code', level: 88, category: 'AI/ML Tools' },
-  { name: 'Cursor', level: 78, category: 'AI/ML Tools' },
-  { name: 'n8n', level: 60, category: 'AI/ML Tools' },
-  { name: 'HuggingFace', level: 80, category: 'AI/ML Tools' },
-  { name: 'Kaggle', level: 80, category: 'AI/ML Tools' },
-  { name: 'Collab', level: 80, category: 'AI/ML Tools' },
+  { name: 'Fine tuning', level: 78, category: 'AI/ML' },
+  { name: 'RAG systems', level: 60, category: 'AI/ML' },
+  { name: 'Model assesment', level: 80, category: 'AI/ML' },
 
-  // ─── APIS & INTEGRATION ──────────────────────
-  { name: 'REST APIs', level: 92, category: 'APIs & Integration' },
-  { name: 'Third-party Integrations', level: 88, category: 'APIs & Integration' },
-  { name: 'Webhooks', level: 70, category: 'APIs & Integration' },
+  // // ─── APIS & INTEGRATION ──────────────────────
+  // { name: 'REST APIs', level: 92, category: 'APIs & Integration' },
+  // { name: 'Third-party Integrations', level: 88, category: 'APIs & Integration' },
+  // { name: 'Webhooks', level: 70, category: 'APIs & Integration' },
 
-  // ─── DATABASES ───────────────────────────────
-  { name: 'PostgreSQL', level: 82, category: 'Databases' },
-  { name: 'MySQL', level: 75, category: 'Databases' },
-  { name: 'SQLite', level: 65, category: 'Databases' },
-  { name: 'Schema Design & Migrations', level: 75, category: 'Databases' },
+  // // ─── DATABASES ───────────────────────────────
+  // { name: 'PostgreSQL', level: 82, category: 'Databases' },
+  // { name: 'MySQL', level: 75, category: 'Databases' },
+  // { name: 'SQLite', level: 65, category: 'Databases' },
+  // { name: 'Schema Design & Migrations', level: 75, category: 'Databases' },
 
-  // ─── TESTING & QUALITY ───────────────────────
-  { name: 'Jest', level: 70, category: 'Testing & Quality' },
-  { name: 'Cypress', level: 72, category: 'Testing & Quality' },
-  { name: 'End-to-End Testing', level: 70, category: 'Testing & Quality' },
-  { name: 'Code Reviews', level: 85, category: 'Testing & Quality' },
+  // // ─── TESTING & QUALITY ───────────────────────
+  // { name: 'Jest', level: 70, category: 'Testing & Quality' },
+  // { name: 'Cypress', level: 72, category: 'Testing & Quality' },
+  // { name: 'End-to-End Testing', level: 70, category: 'Testing & Quality' },
+  // { name: 'Code Reviews', level: 85, category: 'Testing & Quality' },
 
   // ─── DEVOPS & CLOUD ──────────────────────────
   { name: 'Docker', level: 72, category: 'DevOps & Cloud' },
@@ -50,17 +46,17 @@ export const skills = [
   { name: 'npm / yarn / pnpm / bun', level: 88, category: 'Tooling' },
   { name: 'ESLint / Prettier', level: 80, category: 'Tooling' },
 
-  // ─── ARCHITECTURE & PRACTICES ─────────────────
-  { name: 'Component-driven Architecture', level: 90, category: 'Architecture & Practices' },
-  { name: 'Scalable Frontend Architecture', level: 85, category: 'Architecture & Practices' },
-  { name: 'Separation of Concerns', level: 88, category: 'Architecture & Practices' },
-  { name: 'Technical Decision Making', level: 85, category: 'Architecture & Practices' },
+  // // ─── ARCHITECTURE & PRACTICES ─────────────────
+  // { name: 'Component-driven Architecture', level: 90, category: 'Architecture & Practices' },
+  // { name: 'Scalable Frontend Architecture', level: 85, category: 'Architecture & Practices' },
+  // { name: 'Separation of Concerns', level: 88, category: 'Architecture & Practices' },
+  // { name: 'Technical Decision Making', level: 85, category: 'Architecture & Practices' },
 
-  // ─── LEADERSHIP & COLLABORATION ───────────────
-  { name: 'Mentoring Developers', level: 85, category: 'Leadership & Collaboration' },
-  { name: 'Technical Communication', level: 90, category: 'Leadership & Collaboration' },
-  { name: 'Product & Stakeholder Collaboration', level: 80, category: 'Leadership & Collaboration' },
-  { name: 'Agile / Scrum Practices', level: 85, category: 'Leadership & Collaboration' },
+  // // ─── LEADERSHIP & COLLABORATION ───────────────
+  // { name: 'Mentoring Developers', level: 85, category: 'Leadership & Collaboration' },
+  // { name: 'Technical Communication', level: 90, category: 'Leadership & Collaboration' },
+  // { name: 'Product & Stakeholder Collaboration', level: 80, category: 'Leadership & Collaboration' },
+  // { name: 'Agile / Scrum Practices', level: 85, category: 'Leadership & Collaboration' },
 ];
 
 // ─── WORK EXPERIENCE DATA ───────────────────────────────────────────────────
@@ -418,9 +414,9 @@ export const platformColors: Record<string, string> = {
 };
 
 export const statusColors: Record<string, string> = {
-  'completed': 'bg-green-600',
-  'in-progress': 'bg-yellow-600',
-  'planned': 'bg-blue-600'
+  'completed': 'bg-primary',
+  'in-progress': 'bg-secondary',
+  'planned': 'border-primary'
 };
 
 export const statusLabels: Record<string, string> = {

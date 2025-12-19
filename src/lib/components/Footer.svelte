@@ -1,5 +1,6 @@
 <script lang="ts">
   import { getRandomBrandColor } from '$lib/utils/colorRandomizer';
+  import { t } from '$lib/i18n/store';
 
   // Generate random colors for social links
   const linkColors = {
@@ -14,7 +15,7 @@
     <div class="flex flex-col md:flex-row items-center justify-between gap-8">
       <!-- Brand/Name -->
       <div class="text-center md:text-left">
-        <h3 class="text-2xl font-bold gradient-text mb-2">Federico Rudolf</h3>
+        <h3 class="text-2xl font-extrabold mb-2 name-hover">Federico Rudolf</h3>
         <p class="text-gray-400 text-sm">Full-Stack Developer & Technical Leader</p>
       </div>
 
@@ -54,7 +55,7 @@
           class="contact-button px-6 py-3 rounded-lg font-semibold transition-all"
           style="--contact-color: {linkColors.contact}"
         >
-          Contact Me
+          {$t.about.contactButton}
         </a>
       </div>
     </div>
@@ -80,21 +81,45 @@
   }
 
   .contact-button {
-    background-color: transparent;
-    border: 2px solid var(--contact-color);
-    color: var(--contact-color);
+    position: relative;
+    border: 2px solid #FFF;
+    color: #FFF;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      transparent 50%,
+      #E2211C 50%,
+      #E2211C 100%
+    );
+    background-size: 200% 100%;
+    background-position: 0% 0%;
+    transition: background-position 0.6s ease-in-out;
+    overflow: hidden;
   }
 
   .contact-button:hover {
-    background-color: var(--contact-color);
-    color: #000;
+    background-position: 100% 0%;
     transform: scale(1.05);
   }
 
-  .gradient-text {
-    background: linear-gradient(135deg, #E2211C 0%, #FFF 100%);
+  .name-hover {
+    background: linear-gradient(
+      to right,
+      #FFF 0%,
+      #FFF 50%,
+      #E2211C 50%,
+      #E2211C 100%
+    );
+    background-size: 200% 100%;
+    background-position: 0% 0%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    transition: background-position 0.6s ease-in-out;
+    cursor: pointer;
+  }
+
+  .name-hover:hover {
+    background-position: 100% 0%;
   }
 </style>

@@ -34,14 +34,6 @@
     }
   ];
 
-  // Platform colors
-  const platformColors: Record<string, string> = {
-    'Medium': 'bg-green-600',
-    'Dev.to': 'bg-purple-600',
-    'Personal Blog': 'bg-blue-600',
-    'Other': 'bg-gray-600'
-  };
-
   // Format date
   function formatDate(dateString: string) {
     const date = new Date(dateString);
@@ -69,7 +61,7 @@
                 </a>
               </h2>
               <div class="flex flex-wrap items-center gap-3 text-sm text-gray-400">
-                <span class="platform-badge {platformColors[publication.platform] || platformColors.Other} px-3 py-1 rounded-full text-white text-xs font-semibold">
+                <span class="platform-badge bg-primary px-3 py-1 rounded-full text-white text-xs font-semibold">
                   {publication.platform}
                 </span>
                 <span>{formatDate(publication.date)}</span>
