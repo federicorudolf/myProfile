@@ -141,7 +141,7 @@
 
 <style>
   .header {
-    z-index: 9;
+    z-index: 1000;
     position: fixed;
     top: 0;
     backdrop-filter: blur(2px);
@@ -152,6 +152,12 @@
     width: 100%;
     height: 60px;
     padding: 0 2em 0 2em;
+  }
+
+  @media (max-width: 767px) {
+    .header {
+      z-index: 9999;
+    }
   }
   .header__menu {
     padding: 0;
@@ -239,7 +245,7 @@
     width: 100vw;
     position: absolute;
     top: 0;
-    background-color: black;
+    background-color: var(--black);
   }
 
   .mobile-menu__item {

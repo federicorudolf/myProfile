@@ -841,10 +841,28 @@
   .titles {
     z-index: 9;
     font-family: 'Helvetica Neue', sans-serif;
-    font-size: 10em;
+    font-size: 5rem;
     text-shadow: 2px 2px 2px var(--red);
     text-stroke: 1px var(--red);
     -webkit-text-stroke: 1px var(--red);
+  }
+
+  @media (min-width: 768px) {
+    .titles {
+      font-size: 6rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .titles {
+      font-size: 8rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .titles {
+      font-size: 10rem;
+    }
   }
 
   .scroll-button {
