@@ -4,7 +4,7 @@
   import { onMount } from 'svelte';
 
   const RADIUS = 25 * 0.3;
-  const MOBILE_CIRCLES = 150;
+  const MOBILE_CIRCLES = 100;
   const DESKTOP_CIRCLES = 250;
   const MOBILE_SIZE = 785;
   const GRAVITY = 0.0098;
