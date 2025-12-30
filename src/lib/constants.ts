@@ -94,8 +94,8 @@ export const experiences = [
     company: 'GlobalLogic',
     position: 'Technical Lead',
     location: 'Remote',
-    startDate: '2020-01',
-    endDate: '2022-01',
+    startDate: '2021-01',
+    endDate: '2022-06',
     current: false,
     description:
       'Technical leadership role focused on frontend architecture, team coordination, and direct client communication for fintech products.',
@@ -113,7 +113,6 @@ export const experiences = [
       'Perforce'
     ]
   },
-
   {
     company: 'Grupo Assa',
     position: 'Frontend Developer (Project-based)',
@@ -138,13 +137,12 @@ export const experiences = [
       'Lottie Animations'
     ]
   },
-
   {
     company: 'GlobalLogic',
     position: 'Senior Web UI Developer',
     location: 'Remote',
-    startDate: '2017-01',
-    endDate: '2019-12',
+    startDate: '2019-09',
+    endDate: '2020-12',
     current: false,
     description:
       'Senior frontend role focused on building and maintaining fintech web applications and supporting team growth.',
@@ -160,13 +158,12 @@ export const experiences = [
       'Perforce'
     ]
   },
-
   {
     company: 'Globant',
     position: 'Semi Senior Web UI Developer',
     location: 'Bahía Blanca, Argentina',
-    startDate: '2016-01',
-    endDate: '2017-12',
+    startDate: '2019-01',
+    endDate: '2019-9',
     current: false,
     description:
       'Frontend development across multiple projects, including migrations, greenfield development, and legacy system maintenance.',
@@ -186,13 +183,12 @@ export const experiences = [
       'TFS'
     ]
   },
-
   {
     company: 'Globant',
     position: 'Junior Advanced Web UI Developer',
     location: 'Bahía Blanca, Argentina',
-    startDate: '2015-01',
-    endDate: '2016-01',
+    startDate: '2018-01',
+    endDate: '2019-01',
     current: false,
     description:
       'Early-career frontend development role focused on building enterprise web applications and strengthening engineering fundamentals.',
