@@ -260,7 +260,7 @@ export const projects = [
     role: 'Founder & Developer',
     description: 'WhatsApp-powered expense tracker for Argentina. Track income and expenses through natural language chat using Meta Business Cloud API.',
     longDescription: 'Expense tracking bot with WhatsApp webhook integration using Meta Business Cloud API. Features shared accounts, recurring transactions, AI-powered summaries, natural language parsing for Argentine Spanish, and real-time dashboard with transaction analytics.',
-    image: '/project-placeholder.jpg',
+    image: 'https://image.thum.io/get/width/800/crop/600/https://randall.agency',
     technologies: ['React', 'TypeScript', 'Fastify', 'Prisma', 'PostgreSQL', 'WhatsApp API', 'Railway'],
     githubUrl: null,
     liveUrl: 'https://randall.agency',
