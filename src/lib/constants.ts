@@ -65,7 +65,7 @@ export const experiences = [
     company: 'LaunchpadLab',
     position: 'Software Developer',
     location: 'Remote',
-    startDate: '2022-01',
+    startDate: '2022-06',
     endDate: null,
     current: true,
     description:
@@ -231,7 +231,6 @@ export const projects = [
     status: 'deprecated',
     year: '2018'
   },
-
   {
     title: 'Jazmín de Rosas',
     role: 'Co-Founder & Developer',
@@ -256,30 +255,19 @@ export const projects = [
     status: 'exited',
     year: '2019'
   },
-
   {
-    title: 'PGTGolf',
+    title: 'Randall',
     role: 'Founder & Developer',
-    description:
-      'Web platform for managing golf teams, competitions, statistics, and tee times.',
-    longDescription:
-      'PGTGolf is a management platform for golf teams and competitions, enabling organizers to manage players, events, statistics, and scheduling. The project focused on clean data modeling and low-overhead infrastructure.',
-    technologies: ['Svelte', 'Python', 'PostgreSQL', 'Railway'],
-    challenges: [
-      'Designing a simple yet flexible data model for teams, players, and events',
-      'Deploying and maintaining a production environment with minimal operational overhead',
-      'Balancing feature richness with usability for non-technical users'
-    ],
-    learnings: [
-      'Simple data models scale better than over-engineered ones',
-      'Operational simplicity is a feature',
-      'Good UX often comes from removing features, not adding them'
-    ],
+    description: 'WhatsApp-powered expense tracker for Argentina. Track income and expenses through natural language chat using Meta Business Cloud API.',
+    longDescription: 'Expense tracking bot with WhatsApp webhook integration using Meta Business Cloud API. Features shared accounts, recurring transactions, AI-powered summaries, natural language parsing for Argentine Spanish, and real-time dashboard with transaction analytics.',
+    image: '/project-placeholder.jpg',
+    technologies: ['React', 'TypeScript', 'Fastify', 'Prisma', 'PostgreSQL', 'WhatsApp API', 'Railway'],
+    githubUrl: null,
+    liveUrl: 'https://randall.agency',
     featured: true,
-    status: 'completed',
-    year: '2021'
+    status: 'in-progress',
+    year: '2026'
   },
-
   {
     title: 'Talent.Arg',
     role: 'Co-Founder & Lead Developer',
@@ -306,7 +294,6 @@ export const projects = [
     status: 'active',
     year: '2023'
   },
-
   {
     title: 'Veluto',
     role: 'Co-Founder',
@@ -333,7 +320,6 @@ export const projects = [
     status: 'active',
     year: '2025'
   },
-
   {
     title: 'dermAI',
     role: 'Co-Founder & Lead Developer',
