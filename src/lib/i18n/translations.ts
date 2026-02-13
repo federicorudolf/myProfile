@@ -105,9 +105,9 @@ export const translations = {
         longDescription: 'E-commerce platform developed for a retail-focused makeup brand. The project required working within Magento\'s rigid architecture while delivering custom payment behavior and aligning technical decisions with a non-technical business.'
       },
       {
-        title: 'PGTGolf',
-        description: 'Web platform for managing golf teams, competitions, statistics, and tee times.',
-        longDescription: 'PGTGolf is a management platform for golf teams and competitions, enabling organizers to manage players, events, statistics, and scheduling. The project focused on clean data modeling and low-overhead infrastructure.'
+        title: 'Randall',
+        description: 'WhatsApp-powered expense tracker for Argentina. Track income and expenses through natural language chat using Meta Business Cloud API.',
+        longDescription: 'Expense tracking bot with WhatsApp webhook integration using Meta Business Cloud API. Features shared accounts, recurring transactions, AI-powered summaries, natural language parsing for Argentine Spanish, and real-time dashboard with transaction analytics.'
       },
       {
         title: 'Talent.Arg',
@@ -300,9 +300,9 @@ export const translations = {
         longDescription: 'Plataforma de e-commerce desarrollada para una marca de maquillaje enfocada en retail. El proyecto requirió trabajar dentro de la arquitectura rígida de Magento mientras se entregaba comportamiento de pago personalizado y se alineaban las decisiones técnicas con un negocio no técnico.'
       },
       {
-        title: 'PGTGolf',
-        description: 'Plataforma web para gestionar equipos de golf, competencias, estadísticas y horarios de tee.',
-        longDescription: 'PGTGolf es una plataforma de gestión para equipos de golf y competencias, permitiendo a los organizadores gestionar jugadores, eventos, estadísticas y programación. El proyecto se enfocó en modelado de datos limpio e infraestructura de baja sobrecarga.'
+        title: 'Randall',
+        description: 'Bot de gestión de gastos por WhatsApp para Argentina. Registra ingresos y gastos mediante chat en lenguaje natural usando Meta Business Cloud API.',
+        longDescription: 'Bot de seguimiento de gastos con integración de webhooks de WhatsApp usando Meta Business Cloud API. Incluye cuentas compartidas, transacciones recurrentes, resúmenes impulsados por IA, procesamiento de lenguaje natural para español argentino, y dashboard en tiempo real con análisis de transacciones.'
       },
       {
         title: 'Talent.Arg',

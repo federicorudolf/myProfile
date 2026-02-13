@@ -36,6 +36,8 @@
     longDescription: $t.projectsList[i]?.longDescription || proj.longDescription
   }));
 
+  console.log(projects, projectsData)
+
   let title = '';
   const TIME = 200;
   let visible = false;

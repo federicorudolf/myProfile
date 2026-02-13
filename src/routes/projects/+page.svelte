@@ -5,6 +5,7 @@
 
   // Projects data - add your actual projects here
   const projects = [
+
     {
       title: 'E-Commerce Platform',
       description: 'A full-stack e-commerce solution with real-time inventory management, payment processing, and order tracking. Built with modern technologies for optimal performance and user experience.',
