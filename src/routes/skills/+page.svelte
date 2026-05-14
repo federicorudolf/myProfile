@@ -15,6 +15,9 @@
     { name: 'Python', level: 75, category: 'Backend' },
     { name: 'HTML/CSS', level: 95, category: 'Frontend' },
     { name: 'SQL', level: 70, category: 'Database' },
+    { name: 'Claude Code', level: 80, category: 'AI/ML' },
+    { name: 'Cursor', level: 78, category: 'AI/ML' },
+    { name: 'Claude Design', level: 70, category: 'AI/ML' },
   ];
 
   let chartCanvas: HTMLCanvasElement;

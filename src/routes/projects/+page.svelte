@@ -53,6 +53,42 @@
       featured: false,
       status: 'completed',
       year: '2023'
+    },
+    {
+      title: 'Randall Resto',
+      description: 'Restaurant administration tool with QR code ordering at tables, MercadoPago integration, and full POS functionality.',
+      longDescription: 'Randall Resto is a restaurant management platform built for Argentine venues. Diners scan a QR code at their table to place orders directly from their phone. The system includes a point-of-sale interface for staff, MercadoPago payment integration, and a real-time kitchen and order tracking dashboard.',
+      image: 'https://image.thum.io/get/width/800/crop/600/https://randall.food',
+      technologies: ['React', 'TypeScript', 'Node.js', 'MercadoPago API', 'QR Codes', 'PostgreSQL'],
+      githubUrl: null,
+      liveUrl: 'https://randall.food',
+      featured: true,
+      status: 'active',
+      year: '2026'
+    },
+    {
+      title: 'Webexperts',
+      description: 'AI-powered landing site factory. Analyzes existing sites, rates them, and proposes data-driven improvements.',
+      longDescription: 'Webexperts is an AI landing site generation platform that evaluates a client\'s current website, produces a structured quality rating, and generates improved landing pages based on that analysis. The workflow combines AI tools with a production pipeline that delivers ready-to-deploy sites.',
+      image: 'https://image.thum.io/get/width/800/crop/600/https://webexperts.cloud',
+      technologies: ['SvelteKit', 'TypeScript', 'AI APIs', 'Node.js'],
+      githubUrl: null,
+      liveUrl: 'https://webexperts.cloud',
+      featured: true,
+      status: 'active',
+      year: '2026'
+    },
+    {
+      title: 'CuentasPro',
+      description: 'Desktop app for Windows and macOS to manage client balances and accounts with automatic charges, thermal printing, and role management.',
+      longDescription: 'CuentasPro is a cross-platform desktop application built with Electron for managing client account balances. Key features include automatic monthly charge runs, rate adjustment tools, thermal receipt printing, role-based access control, Excel import/export, and session management.',
+      image: 'https://image.thum.io/get/width/800/crop/600/https://cuentaspro.app',
+      technologies: ['Electron', 'TypeScript', 'React', 'SQLite', 'Excel', 'Thermal Printing'],
+      githubUrl: null,
+      liveUrl: 'https://cuentaspro.app',
+      featured: false,
+      status: 'active',
+      year: '2025'
     }
   ];
 
@@ -60,13 +96,19 @@
   const statusColors: Record<string, string> = {
     'completed': 'bg-green-600',
     'in-progress': 'bg-yellow-600',
-    'planned': 'bg-blue-600'
+    'planned': 'bg-blue-600',
+    'active': 'bg-green-600',
+    'deprecated': 'bg-gray-600',
+    'exited': 'bg-gray-500'
   };
 
   const statusLabels: Record<string, string> = {
     'completed': 'Completed',
     'in-progress': 'In Progress',
-    'planned': 'Planned'
+    'planned': 'Planned',
+    'active': 'Active',
+    'deprecated': 'Deprecated',
+    'exited': 'Exited'
   };
 </script>
 

@@ -1,38 +1,99 @@
-# create-svelte
+# myProfile
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+Personal portfolio site built with SvelteKit. Bilingual (EN/ES), statically generated, and deployed via Firebase Hosting.
 
-## Creating a project
+## Tech Stack
 
-If you're seeing this, you've probably already done this step. Congrats!
+- **Framework**: SvelteKit 2.0 + Svelte 5
+- **Styling**: Tailwind CSS 3 + DaisyUI 4
+- **Language**: TypeScript
+- **Backend/Hosting**: Firebase (Firestore, Hosting, Functions)
+- **Charts**: Chart.js
+- **Adapter**: `@sveltejs/adapter-static` (SSG)
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+## Project Structure
 
-# create a new project in my-app
-npm create svelte@latest my-app
+```
+myProfile/
+├── src/
+│   ├── routes/                  # File-based routing
+│   │   ├── +layout.svelte       # Global layout (Header + Footer)
+│   │   ├── +layout.server.ts    # Server-side data loading (Medium articles)
+│   │   ├── +page.svelte         # Home page — hero, experience, projects, skills
+│   │   ├── posts/               # Blog/publications page
+│   │   ├── projects/            # Projects showcase
+│   │   ├── skills/              # Skills page with Chart.js charts
+│   │   ├── trabajos/            # Work experience page
+│   │   └── inicio/              # Alternate home route
+│   ├── lib/
+│   │   ├── components/
+│   │   │   ├── Header.svelte    # Navigation header
+│   │   │   ├── Footer.svelte    # Footer
+│   │   │   ├── Modal.svelte     # Modal dialog
+│   │   │   └── Circles.svelte   # Animated background circles
+│   │   ├── i18n/
+│   │   │   ├── store.ts         # Language state (Svelte stores, localStorage)
+│   │   │   └── translations.ts  # EN/ES translation strings
+│   │   ├── utils/
+│   │   │   └── colorRandomizer.ts  # Random color utilities
+│   │   ├── helpers/
+│   │   │   └── Circle.ts        # Circle animation helper class
+│   │   ├── constants.ts         # Static data: skills, experiences, projects
+│   │   ├── helpers.ts           # Utility functions
+│   │   ├── services.ts          # External API calls (Medium RSS)
+│   │   └── index.ts             # Barrel export
+│   ├── app.css                  # Global styles
+│   └── app.d.ts                 # TypeScript app types
+├── static/                      # Static assets (fonts, icons, favicon)
+├── build/                       # Production build output
+├── firebase.json                # Firebase Hosting + Functions config
+├── firestore.rules              # Firestore security rules
+├── svelte.config.js             # SvelteKit config (static adapter)
+├── tailwind.config.js           # Tailwind + DaisyUI config
+└── vite.config.ts               # Vite config
 ```
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## Getting Started
 
 ```bash
+npm install
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-## Building
+## Scripts
 
-To create a production version of your app:
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start dev server |
+| `npm run build` | Build for production |
+| `npm run preview` | Preview production build |
+| `npm run check` | Run Svelte type checks |
+| `npm run lint` | ESLint |
+| `npm run format` | Prettier |
+
+## Key Features
+
+- **Bilingual (EN/ES)**: Language stored in `localStorage`, detected from browser preferences
+- **Static generation**: All pages prerendered at build time
+- **Medium integration**: Articles fetched server-side from Medium RSS feed
+- **Dynamic colors**: Cards and accents use randomized color palettes
+- **Scroll animations**: Name animation and section transitions tied to scroll position
+- **Chart.js skills**: Horizontal bar charts per skill category
+- **Responsive**: Mobile-first with Tailwind, breakpoint at 768px
+
+## Content Data
+
+All portfolio content lives in `src/lib/constants.ts`:
+- **Skills**: Grouped by category (Languages, Frameworks, AI/ML, DevOps, Tooling)
+- **Experiences**: Full career history entries
+- **Projects**: Featured and archived projects with status tracking
+- **Publications**: Template/metadata for blog posts
+
+## Deployment
+
+Deployed to Firebase Hosting. The build output goes to `build/`.
 
 ```bash
 npm run build
+firebase deploy
 ```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.

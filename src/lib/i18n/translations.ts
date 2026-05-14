@@ -123,6 +123,21 @@ export const translations = {
         title: 'dermAI',
         description: 'AI-powered melanoma detection application focused on medical imaging analysis.',
         longDescription: 'dermAI is an AI-driven melanoma detection application built using deep learning models trained on medical imaging datasets. The project emphasizes model accuracy, ethical responsibility, and a clean separation between ML inference and frontend consumption.'
+      },
+      {
+        title: 'Randall Resto',
+        description: 'Restaurant administration tool with QR code ordering at tables, MercadoPago integration, and full POS functionality.',
+        longDescription: 'Randall Resto is a restaurant management platform built for Argentine venues. Diners scan a QR code at their table to place orders directly from their phone. The system includes a point-of-sale interface for staff, MercadoPago payment integration, and a real-time kitchen and order tracking dashboard.'
+      },
+      {
+        title: 'Webexperts',
+        description: 'AI-powered landing site factory. Analyzes existing sites, rates them, and proposes data-driven improvements.',
+        longDescription: 'Webexperts is an AI landing site generation platform that evaluates a client\'s current website, produces a structured quality rating, and generates improved landing pages based on that analysis. The workflow combines AI tools with a production pipeline that delivers ready-to-deploy sites.'
+      },
+      {
+        title: 'CuentasPro',
+        description: 'Desktop app for Windows and macOS to manage client balances and accounts with automatic charges, thermal printing, and role management.',
+        longDescription: 'CuentasPro is a cross-platform desktop application built with Electron for managing client account balances. Key features include automatic monthly charge runs, rate adjustment tools, thermal receipt printing, role-based access control, Excel import/export, and session management.'
       }
     ],
     publications: [
@@ -157,7 +172,8 @@ export const translations = {
         'DevOps & Cloud': 'DevOps & Cloud',
         'Tooling': 'Tooling',
         'Architecture & Practices': 'Architecture & Practices',
-        'Leadership & Collaboration': 'Leadership & Collaboration'
+        'Leadership & Collaboration': 'Leadership & Collaboration',
+        'AI/ML': 'AI Tools'
       }
     },
     experience: {
@@ -318,6 +334,21 @@ export const translations = {
         title: 'dermAI',
         description: 'Aplicación de detección de melanoma impulsada por IA enfocada en análisis de imágenes médicas.',
         longDescription: 'dermAI es una aplicación de detección de melanoma impulsada por IA construida usando modelos de deep learning entrenados en conjuntos de datos de imágenes médicas. El proyecto enfatiza la precisión del modelo, responsabilidad ética y una separación clara entre inferencia de ML y consumo del frontend.'
+      },
+      {
+        title: 'Randall Resto',
+        description: 'Herramienta de administración de restaurantes con pedidos por QR en mesa, integración con MercadoPago y funcionalidad POS completa.',
+        longDescription: 'Randall Resto es una plataforma de gestión de restaurantes diseñada para locales argentinos. Los comensales escanean un código QR en la mesa para hacer pedidos desde su celular. El sistema incluye una interfaz de punto de venta para el personal, integración de pagos con MercadoPago y un panel en tiempo real de pedidos y cocina.'
+      },
+      {
+        title: 'Webexperts',
+        description: 'Fábrica de landing sites impulsada por IA. Analiza sitios existentes, los puntúa y propone mejoras basadas en datos.',
+        longDescription: 'Webexperts es una plataforma de generación de landing sites con IA que evalúa el sitio actual de un cliente, produce un puntaje de calidad estructurado y genera páginas mejoradas en base a ese análisis. El flujo combina herramientas de IA con un pipeline de producción que entrega sitios listos para desplegar.'
+      },
+      {
+        title: 'CuentasPro',
+        description: 'Aplicación de escritorio para Windows y macOS para gestionar saldos y cuentas de clientes con cobros automáticos, impresión térmica y gestión de roles.',
+        longDescription: 'CuentasPro es una aplicación de escritorio multiplataforma desarrollada con Electron para gestionar saldos de cuentas de clientes. Sus funcionalidades incluyen cobros mensuales automáticos, ajuste de tarifas, impresión térmica de recibos, control de acceso por roles, soporte de Excel y gestión de sesiones.'
       }
     ],
     publications: [
@@ -352,7 +383,8 @@ export const translations = {
         'DevOps & Cloud': 'DevOps y Cloud',
         'Tooling': 'Herramientas',
         'Architecture & Practices': 'Arquitectura y Prácticas',
-        'Leadership & Collaboration': 'Liderazgo y Colaboración'
+        'Leadership & Collaboration': 'Liderazgo y Colaboración',
+        'AI/ML': 'Herramientas de IA'
       }
     },
     experience: {

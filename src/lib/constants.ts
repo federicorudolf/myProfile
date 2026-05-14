@@ -18,6 +18,9 @@ export const skills = [
   { name: 'Fine tuning', level: 78, category: 'AI/ML' },
   { name: 'RAG systems', level: 60, category: 'AI/ML' },
   { name: 'Model assesment', level: 80, category: 'AI/ML' },
+  { name: 'Claude Code', level: 80, category: 'AI/ML' },
+  { name: 'Cursor', level: 78, category: 'AI/ML' },
+  { name: 'Claude Design', level: 70, category: 'AI/ML' },
 
   // // ─── APIS & INTEGRATION ──────────────────────
   // { name: 'REST APIs', level: 92, category: 'APIs & Integration' },
@@ -353,6 +356,45 @@ export const projects = [
     featured: true,
     status: 'active',
     year: '2025'
+  },
+  {
+    title: 'Randall Resto',
+    role: 'Founder & Developer',
+    description: 'Restaurant administration tool with QR code ordering at tables, MercadoPago integration, and full POS functionality.',
+    longDescription: 'Randall Resto is a restaurant management platform built for Argentine venues. Diners scan a QR code at their table to place orders directly from their phone. The system includes a point-of-sale interface for staff, MercadoPago payment integration, and a real-time kitchen and order tracking dashboard.',
+    technologies: ['React', 'TypeScript', 'Node.js', 'MercadoPago API', 'QR Codes', 'PostgreSQL'],
+    githubUrl: null,
+    liveUrl: 'https://randall.food',
+    image: 'https://image.thum.io/get/width/800/crop/600/https://randall.food',
+    featured: true,
+    status: 'active',
+    year: '2026'
+  },
+  {
+    title: 'Webexperts',
+    role: 'Founder & Developer',
+    description: 'AI-powered landing site factory. Analyzes existing sites, rates them, and proposes data-driven improvements.',
+    longDescription: 'Webexperts is an AI landing site generation platform that evaluates a client\'s current website, produces a structured quality rating, and generates improved landing pages based on that analysis. The workflow combines AI tools with a production pipeline that delivers ready-to-deploy sites.',
+    technologies: ['SvelteKit', 'TypeScript', 'AI APIs', 'Node.js'],
+    githubUrl: null,
+    liveUrl: 'https://webexperts.cloud',
+    image: 'https://image.thum.io/get/width/800/crop/600/https://webexperts.cloud',
+    featured: true,
+    status: 'active',
+    year: '2026'
+  },
+  {
+    title: 'CuentasPro',
+    role: 'Founder & Developer',
+    description: 'Desktop app for Windows and macOS to manage client balances and accounts with automatic charges, thermal printing, and role management.',
+    longDescription: 'CuentasPro is a cross-platform desktop application built with Electron for managing client account balances. Key features include automatic monthly charge runs, rate adjustment tools, thermal receipt printing, role-based access control, Excel import/export, and session management.',
+    technologies: ['Electron', 'TypeScript', 'React', 'SQLite', 'Excel', 'Thermal Printing'],
+    githubUrl: null,
+    liveUrl: 'https://cuentaspro.app',
+    image: 'https://image.thum.io/get/width/800/crop/600/https://cuentaspro.app',
+    featured: false,
+    status: 'active',
+    year: '2025'
   }
 ];
 
@@ -398,11 +440,17 @@ export const platformColors: Record<string, string> = {
 export const statusColors: Record<string, string> = {
   'completed': 'bg-primary',
   'in-progress': 'bg-secondary',
-  'planned': 'border-primary'
+  'planned': 'border-primary',
+  'active': 'bg-green-600',
+  'deprecated': 'bg-gray-600',
+  'exited': 'bg-gray-500'
 };
 
 export const statusLabels: Record<string, string> = {
   'completed': 'Completed',
   'in-progress': 'In Progress',
-  'planned': 'Planned'
+  'planned': 'Planned',
+  'active': 'Active',
+  'deprecated': 'Deprecated',
+  'exited': 'Exited'
 };
