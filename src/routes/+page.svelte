@@ -353,11 +353,11 @@
     <!-- Big heading -->
     <h2 style="font-family:var(--font-display);font-weight:400;font-size:clamp(72px,10vw,160px);line-height:0.88;letter-spacing:-3px;margin:0 0 32px;color:#1C1A2E;">
       <span style="position:relative;display:inline-block;">
-        <span style="position:absolute;left:1px;top:1px;color:#E0524A;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;" aria-hidden="true">{$t.skills.headingLine1}</span>
+        <span style="position:absolute;left:5px;top:4px;color:#E0524A;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;" aria-hidden="true">{$t.skills.headingLine1}</span>
         <span style="position:relative;">{$t.skills.headingLine1}</span>
       </span><br/>
       <span style="position:relative;display:inline-block;font-style:italic;">
-        <span style="position:absolute;left:1px;top:1px;color:#E0524A;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;font-style:italic;" aria-hidden="true">{$t.skills.headingItalic}</span>
+        <span style="position:absolute;left:5px;top:4px;color:#E0524A;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;font-style:italic;" aria-hidden="true">{$t.skills.headingItalic}</span>
         <span style="position:relative;">{$t.skills.headingItalic}</span>
       </span> {$t.skills.headingRest}
     </h2>
@@ -366,7 +366,7 @@
     </p>
 
     <!-- Chip cloud grid -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+    <div class="skills-chip-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
       {#each Object.entries(skillsByCategory) as [category, categorySkills], i}
         <div style="background:#FFF5E6;color:#1C1A2E;padding:20px 22px 22px;border-radius:4px;box-shadow:4px 4px 0 #1C1A2E;border:1.5px solid #1C1A2E;transform:rotate({CARD_ROTATIONS[i] || 0}deg);position:relative;overflow:hidden;">
           <!-- mini halftone inside card -->
@@ -426,11 +426,11 @@
     <!-- Big heading -->
     <h2 style="font-family:var(--font-display);font-weight:400;font-size:clamp(64px,10vw,160px);line-height:0.88;letter-spacing:-3px;margin:0 0 56px;color:#1C1A2E;">
       {$t.experience.headingLine1} <span style="position:relative;display:inline-block;font-style:italic;">
-        <span style="position:absolute;left:1px;top:1px;color:#1F5D6B;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;font-style:italic;" aria-hidden="true">{$t.experience.headingItalic1}</span>
+        <span style="position:absolute;left:5px;top:4px;color:#1F5D6B;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;font-style:italic;" aria-hidden="true">{$t.experience.headingItalic1}</span>
         <span style="position:relative;">{$t.experience.headingItalic1}</span>
       </span>,<br/>
       {$t.experience.headingLine2} <span style="position:relative;display:inline-block;font-style:italic;">
-        <span style="position:absolute;left:1px;top:1px;color:#1F5D6B;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;font-style:italic;" aria-hidden="true">{$t.experience.headingItalic2}</span>
+        <span style="position:absolute;left:5px;top:4px;color:#1F5D6B;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;font-style:italic;" aria-hidden="true">{$t.experience.headingItalic2}</span>
         <span style="position:relative;">{$t.experience.headingItalic2}</span>
       </span>.
     </h2>
@@ -440,13 +440,13 @@
       {#each [{label:$t.experience.statYears,value:'8'},{label:$t.experience.statCompanies,value:String(new Set(experiences.map(e=>e.company)).size)},{label:$t.experience.statRemote,value:$t.experience.remoteValue}] as stat}
         <div>
           <div style="font-family:var(--font-mono);font-size:11px;color:#1C1A2E;opacity:0.6;letter-spacing:1.4px;text-transform:uppercase;">{stat.label}</div>
-          <div style="font-family:var(--font-display);font-size:72px;color:#1F5D6B;line-height:1;margin-top:2px;">{stat.value}</div>
+          <div class="exp-stat-value" style="font-family:var(--font-display);font-size:72px;color:#1F5D6B;line-height:1;margin-top:2px;">{stat.value}</div>
         </div>
       {/each}
     </div>
 
     <!-- Timeline rail -->
-    <div style="position:relative;min-height:360px;margin-bottom:80px;">
+    <div class="exp-timeline" style="position:relative;min-height:360px;margin-bottom:80px;">
       <!-- Track -->
       <div style="position:absolute;top:180px;left:0;right:0;height:6px;background:#1C1A2E;border-radius:3px;"></div>
       <!-- Year ticks -->
@@ -476,7 +476,7 @@
     </div>
 
     <!-- Detail cards grid -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;">
+    <div class="exp-cards-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;">
       {#each experiences as exp, i}
         <article style="background:{i===0?'#1F5D6B':'#EAF7EE'};color:{i===0?'#FFF8EE':'#1C1A2E'};border:2px solid #1C1A2E;padding:20px 24px;box-shadow:5px 5px 0 #1C1A2E;position:relative;overflow:hidden;min-width:0;">
           <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;">
@@ -522,22 +522,22 @@
     <!-- Big heading -->
     <h2 style="font-family:var(--font-display);font-weight:400;font-size:clamp(64px,10vw,160px);line-height:0.88;letter-spacing:-3px;margin:0 0 56px;color:#1C1A2E;">
       <span style="position:relative;display:inline-block;">
-        <span style="position:absolute;left:1px;top:1px;color:#5D3FD3;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;" aria-hidden="true">{$t.projects.headingWord1}</span>
+        <span style="position:absolute;left:5px;top:4px;color:#5D3FD3;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;" aria-hidden="true">{$t.projects.headingWord1}</span>
         <span style="position:relative;">{$t.projects.headingWord1}</span>
       </span>
       <span style="position:relative;display:inline-block;font-style:italic;">
-        <span style="position:absolute;left:1px;top:1px;color:#5D3FD3;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;font-style:italic;" aria-hidden="true">{$t.projects.headingItalic}</span>
+        <span style="position:absolute;left:5px;top:4px;color:#5D3FD3;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;font-style:italic;" aria-hidden="true">{$t.projects.headingItalic}</span>
         <span style="position:relative;">{$t.projects.headingItalic}</span>
       </span><br/>
       {$t.projects.headingWord2} <span style="position:relative;display:inline-block;">
-        <span style="position:absolute;left:1px;top:1px;color:#5D3FD3;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;" aria-hidden="true">{$t.projects.headingItalic2}</span>
+        <span style="position:absolute;left:5px;top:4px;color:#5D3FD3;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;" aria-hidden="true">{$t.projects.headingItalic2}</span>
         <span style="position:relative;">{$t.projects.headingItalic2}</span>
       </span>.
     </h2>
 
     <!-- Featured project -->
     {#if featuredProject}
-      <div style="background:#FFF8EA;border:2px solid #1C1A2E;padding:20px;box-shadow:10px 10px 0 #1C1A2E;display:grid;grid-template-columns:1.5fr 1fr;gap:28px;margin-bottom:56px;align-items:start;">
+      <div class="proj-featured" style="background:#FFF8EA;border:2px solid #1C1A2E;padding:20px;box-shadow:10px 10px 0 #1C1A2E;display:grid;grid-template-columns:1.5fr 1fr;gap:28px;margin-bottom:56px;align-items:start;">
         <!-- Browser mock -->
         <div style="border:2px solid #1C1A2E;border-radius:4px;overflow:hidden;">
           <!-- Browser chrome -->
@@ -563,7 +563,7 @@
             {/if}
             <div style="position:relative;text-align:center;padding:24px;">
               <div style="position:relative;display:inline-block;">
-                <div style="position:absolute;top:1px;left:1.5px;color:#5D3FD3;mix-blend-mode:multiply;font-family:var(--font-display);font-size:clamp(36px,5vw,72px);line-height:0.9;letter-spacing:-1.5px;">{featuredProject.title}</div>
+                <div style="position:absolute;top:4px;left:5px;color:#5D3FD3;mix-blend-mode:multiply;font-family:var(--font-display);font-size:clamp(36px,5vw,72px);line-height:0.9;letter-spacing:-1.5px;">{featuredProject.title}</div>
                 <div style="position:relative;color:#1C1A2E;font-family:var(--font-display);font-size:clamp(36px,5vw,72px);line-height:0.9;letter-spacing:-1.5px;">{featuredProject.title}</div>
               </div>
               {#if featuredProject.liveUrl}
@@ -592,9 +592,9 @@
     {/if}
 
     <!-- Secondary grid -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+    <div class="proj-secondary-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
       {#each secondaryProjects as proj, i}
-        <article style="background:#FFF8EA;border:2px solid #1C1A2E;box-shadow:5px 5px 0 #1C1A2E;padding:14px;transform:rotate({CARD_ROTATIONS[i]||0}deg);">
+        <article class="riso-card" style="background:#FFF8EA;border:2px solid #1C1A2E;box-shadow:5px 5px 0 #1C1A2E;padding:14px;transform:rotate({CARD_ROTATIONS[i]||0}deg);">
           <!-- Mini browser mock -->
           <div style="border:1.5px solid #1C1A2E;border-radius:3px;overflow:hidden;margin-bottom:14px;">
             <div style="background:#1C1A2E;padding:5px 8px;display:flex;align-items:center;gap:5px;">
@@ -618,7 +618,7 @@
               {/if}
               <div style="position:relative;text-align:center;padding:12px;">
                 <div style="position:relative;display:inline-block;">
-                  <div style="position:absolute;top:1px;left:1px;color:#5D3FD3;mix-blend-mode:multiply;font-family:var(--font-display);font-size:clamp(24px,3vw,40px);line-height:0.9;letter-spacing:-1px;">{proj.title}</div>
+                  <div style="position:absolute;top:4px;left:5px;color:#5D3FD3;mix-blend-mode:multiply;font-family:var(--font-display);font-size:clamp(24px,3vw,40px);line-height:0.9;letter-spacing:-1px;">{proj.title}</div>
                   <div style="position:relative;color:#1C1A2E;font-family:var(--font-display);font-size:clamp(24px,3vw,40px);line-height:0.9;letter-spacing:-1px;">{proj.title}</div>
                 </div>
               </div>
@@ -673,22 +673,22 @@
     <!-- Big heading -->
     <h2 style="font-family:var(--font-display);font-weight:400;font-size:clamp(64px,10vw,160px);line-height:0.88;letter-spacing:-3px;margin:0 0 56px;color:#1C1A2E;">
       <span style="position:relative;display:inline-block;">
-        <span style="position:absolute;left:1px;top:1px;color:#B5532A;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;" aria-hidden="true">{$t.posts.headingLine1}</span>
+        <span style="position:absolute;left:5px;top:4px;color:#B5532A;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;" aria-hidden="true">{$t.posts.headingLine1}</span>
         <span style="position:relative;">{$t.posts.headingLine1}</span>
       </span>
       <span style="position:relative;display:inline-block;font-style:italic;">
-        <span style="position:absolute;left:1px;top:1px;color:#B5532A;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;font-style:italic;" aria-hidden="true">{$t.posts.headingItalic}</span>
+        <span style="position:absolute;left:5px;top:4px;color:#B5532A;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;font-style:italic;" aria-hidden="true">{$t.posts.headingItalic}</span>
         <span style="position:relative;">{$t.posts.headingItalic}</span>
       </span>.
     </h2>
 
     {#if mediumArticles.length > 0}
       <!-- Featured pull quote -->
-      <div style="background:#FFF8EA;border:2.5px solid #1C1A2E;padding:48px 56px;margin-bottom:40px;box-shadow:8px 8px 0 #1C1A2E;position:relative;overflow:hidden;">
+      <div class="pub-pull-quote" style="background:#FFF8EA;border:2.5px solid #1C1A2E;padding:48px 56px;margin-bottom:40px;box-shadow:8px 8px 0 #1C1A2E;position:relative;overflow:hidden;">
         <span style="position:absolute;top:-50px;left:20px;font-family:var(--font-display);font-size:280px;color:#B5532A;opacity:0.25;line-height:1;font-style:italic;">"</span>
-        <div style="position:relative;display:grid;grid-template-columns:1fr 200px;gap:40px;align-items:center;">
+        <div class="pub-pull-quote-inner" style="position:relative;display:grid;grid-template-columns:1fr 200px;gap:40px;align-items:center;">
           <p style="font-family:var(--font-display);font-style:italic;font-size:clamp(24px,3vw,44px);line-height:1.15;margin:0;letter-spacing:-0.6px;color:#1C1A2E;">{getPullQuote(mediumArticles[0].description)}</p>
-          <div style="border-left:2px solid #1C1A2E;padding-left:20px;">
+          <div class="pub-pull-quote-side" style="border-left:2px solid #1C1A2E;padding-left:20px;">
             <div style="font-family:var(--font-mono);font-size:10px;color:#1C1A2E;opacity:0.6;letter-spacing:1.2px;">{formatPublicationDate(mediumArticles[0].pubDate).toUpperCase()} · {calculateReadTime(mediumArticles[0].description)}</div>
             <div style="font-family:var(--font-display);font-size:22px;font-weight:400;margin-top:6px;line-height:1.1;color:#1C1A2E;">{mediumArticles[0].title}</div>
             <a href={mediumArticles[0].link} target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:14px;font-family:var(--font-mono);font-size:11px;background:#1C1A2E;color:#FFF8EA;padding:6px 12px;border-radius:3px;text-decoration:none;letter-spacing:1px;text-transform:uppercase;">{$t.posts.readOnMedium}</a>
@@ -697,9 +697,9 @@
       </div>
 
       <!-- Secondary grid -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div class="pub-articles-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
         {#each mediumArticles.slice(1) as article, i}
-          <article style="background:#FFF8EA;border:2px solid #1C1A2E;box-shadow:4px 4px 0 #1C1A2E;padding:24px 28px;position:relative;overflow:hidden;transform:rotate({[-0.3,0.4,-0.2,0.3,-0.4][i]||0}deg);">
+          <article class="riso-card" style="background:#FFF8EA;border:2px solid #1C1A2E;box-shadow:4px 4px 0 #1C1A2E;padding:24px 28px;position:relative;overflow:hidden;transform:rotate({[-0.3,0.4,-0.2,0.3,-0.4][i]||0}deg);">
             <span style="position:absolute;top:8px;right:20px;font-family:var(--font-display);font-size:96px;color:#B5532A;opacity:0.4;line-height:1;font-style:italic;">"</span>
             <div style="font-family:var(--font-mono);font-size:10px;color:#1C1A2E;opacity:0.6;letter-spacing:1.2px;margin-bottom:14px;">{formatPublicationDate(article.pubDate).toUpperCase()} · {calculateReadTime(article.description)}</div>
             <p style="font-family:var(--font-display);font-style:italic;font-size:22px;line-height:1.3;margin:0 0 18px;letter-spacing:-0.2px;color:#1C1A2E;max-width:85%;position:relative;">{getPullQuote(article.description)}</p>
@@ -818,7 +818,38 @@
     section[id="trabajos"],
     section[id="projects"],
     section[id="posts"] {
-      padding: 80px 24px 100px !important;
+      padding: 60px 20px 80px !important;
     }
+
+    /* Skills: 3-col → 1-col */
+    .skills-chip-grid {
+      grid-template-columns: 1fr !important;
+    }
+
+    /* Experience: hide timeline, single-col cards, smaller stat numbers */
+    .exp-timeline { display: none !important; }
+    .exp-cards-grid { grid-template-columns: 1fr !important; }
+    .exp-stat-value { font-size: 48px !important; }
+
+    /* Projects: single-col featured + grid, no card rotation */
+    .proj-featured {
+      grid-template-columns: 1fr !important;
+      box-shadow: 6px 6px 0 #1C1A2E !important;
+    }
+    .proj-secondary-grid { grid-template-columns: 1fr !important; }
+
+    /* Publications: single-col, reduced padding */
+    .pub-pull-quote { padding: 28px 20px !important; }
+    .pub-pull-quote-inner { grid-template-columns: 1fr !important; gap: 20px !important; }
+    .pub-pull-quote-side {
+      border-left: none !important;
+      border-top: 1.5px solid #1C1A2E !important;
+      padding-left: 0 !important;
+      padding-top: 16px !important;
+    }
+    .pub-articles-grid { grid-template-columns: 1fr !important; }
+
+    /* No card rotation on small screens */
+    .riso-card { transform: none !important; }
   }
 </style>
