@@ -546,10 +546,8 @@
             {/each}
           </div>
 
-          <!-- Mini chart (keep for visual richness, below bars) -->
-          <div class="chart-wrapper relative z-10" style="height: {Math.max(80, categorySkills.length * 22)}px; min-height: 80px; max-height: 200px; opacity: 0.5; margin-top: 8px;">
-            <canvas id="chart-{category.replace(/\s+/g, '-').toLowerCase()}"></canvas>
-          </div>
+          <!-- Canvas kept hidden so onMount chart init doesn't throw -->
+          <canvas id="chart-{category.replace(/\s+/g, '-').toLowerCase()}" class="hidden"></canvas>
         </div>
       {/each}
     </div>
