@@ -4,7 +4,7 @@ Guidelines for Claude Code when working on this project.
 
 ## Project Overview
 
-Personal portfolio site — SvelteKit 2 + Svelte 5, TypeScript, Tailwind CSS + DaisyUI, Firebase Hosting. Statically generated via `@sveltejs/adapter-static`.
+Personal portfolio site — SvelteKit 2 + Svelte 5, TypeScript, Tailwind CSS + DaisyUI, Vercel. Statically generated via `@sveltejs/adapter-static`.
 
 ## Key Files
 
@@ -25,7 +25,7 @@ npm run build      # Production build (outputs to build/)
 npm run check      # Svelte type checking
 npm run lint       # ESLint
 npm run format     # Prettier
-firebase deploy    # Deploy to Firebase Hosting
+vercel --prod      # Deploy to Vercel (or auto-deploys on push to master)
 ```
 
 ## Architecture Notes
