@@ -212,11 +212,12 @@
     return 1;
   }
 
-  // Format date
+  // Format date (locale-aware)
   function formatDate(dateString: string | null): string {
-    if (!dateString) return 'Present';
+    if (!dateString) return $t.experience.current;
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+    const locale = $currentLanguage === 'es' ? 'es-AR' : 'en-US';
+    return date.toLocaleDateString(locale, { year: 'numeric', month: 'short' });
   }
 
   function formatPublicationDate(dateString: string) {
@@ -335,24 +336,24 @@
   <div style="position:relative;z-index:1;max-width:1152px;margin:0 auto;">
     <!-- Eyebrow -->
     <div style="display:flex;align-items:center;gap:16px;margin-bottom:28px;">
-      <span style="background:#1C1A2E;color:white;padding:4px 10px;border-radius:999px;font-family:var(--font-mono);font-size:11px;letter-spacing:1.2px;">02 · Skills</span>
+      <span style="background:#1C1A2E;color:white;padding:4px 10px;border-radius:999px;font-family:var(--font-mono);font-size:11px;letter-spacing:1.2px;">{$t.skills.eyebrow}</span>
       <span style="flex:1;height:1px;background:#1C1A2E;opacity:0.3;"></span>
-      <span style="font-family:var(--font-mono);font-size:10px;color:#1C1A2E;opacity:0.6;letter-spacing:1.4px;">◉ PEACH / 04</span>
+      <span style="font-family:var(--font-mono);font-size:10px;color:#1C1A2E;opacity:0.6;letter-spacing:1.4px;">{$t.skills.palette}</span>
     </div>
 
     <!-- Big heading -->
     <h2 style="font-family:var(--font-display);font-weight:400;font-size:clamp(72px,10vw,160px);line-height:0.88;letter-spacing:-3px;margin:0 0 32px;color:#1C1A2E;">
       <span style="position:relative;display:inline-block;">
-        <span style="position:absolute;left:3px;top:2px;color:#E0524A;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;" aria-hidden="true">What I</span>
-        <span style="position:relative;">What I</span>
+        <span style="position:absolute;left:3px;top:2px;color:#E0524A;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;" aria-hidden="true">{$t.skills.headingLine1}</span>
+        <span style="position:relative;">{$t.skills.headingLine1}</span>
       </span><br/>
       <span style="position:relative;display:inline-block;font-style:italic;">
-        <span style="position:absolute;left:3px;top:2px;color:#E0524A;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;font-style:italic;" aria-hidden="true">actually</span>
-        <span style="position:relative;">actually</span>
-      </span> use.
+        <span style="position:absolute;left:3px;top:2px;color:#E0524A;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;font-style:italic;" aria-hidden="true">{$t.skills.headingItalic}</span>
+        <span style="position:relative;">{$t.skills.headingItalic}</span>
+      </span> {$t.skills.headingRest}
     </h2>
     <p style="font-family:var(--font-body);font-size:17px;line-height:1.5;max-width:520px;color:#1C1A2E;opacity:0.75;margin:0 0 56px;">
-      Listed by category, weighted by how often they show up in shipped work. Bigger means I reach for it first.
+      {$t.skills.headingSubtitle}
     </p>
 
     <!-- Chip cloud grid -->
@@ -408,26 +409,26 @@
   <div style="position:relative;z-index:1;max-width:1152px;margin:0 auto;">
     <!-- Eyebrow -->
     <div style="display:flex;align-items:center;gap:16px;margin-bottom:28px;">
-      <span style="background:#1C1A2E;color:white;padding:4px 10px;border-radius:999px;font-family:var(--font-mono);font-size:11px;letter-spacing:1.2px;">03 · Experience</span>
+      <span style="background:#1C1A2E;color:white;padding:4px 10px;border-radius:999px;font-family:var(--font-mono);font-size:11px;letter-spacing:1.2px;">{$t.experience.eyebrow}</span>
       <span style="flex:1;height:1px;background:#1C1A2E;opacity:0.3;"></span>
-      <span style="font-family:var(--font-mono);font-size:10px;color:#1C1A2E;opacity:0.6;letter-spacing:1.4px;">◉ MINT / 11</span>
+      <span style="font-family:var(--font-mono);font-size:10px;color:#1C1A2E;opacity:0.6;letter-spacing:1.4px;">{$t.experience.palette}</span>
     </div>
 
     <!-- Big heading -->
     <h2 style="font-family:var(--font-display);font-weight:400;font-size:clamp(64px,10vw,160px);line-height:0.88;letter-spacing:-3px;margin:0 0 56px;color:#1C1A2E;">
-      Eight <span style="position:relative;display:inline-block;font-style:italic;">
-        <span style="position:absolute;left:3px;top:2px;color:#1F5D6B;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;font-style:italic;" aria-hidden="true">years</span>
-        <span style="position:relative;">years</span>
+      {$t.experience.headingLine1} <span style="position:relative;display:inline-block;font-style:italic;">
+        <span style="position:absolute;left:3px;top:2px;color:#1F5D6B;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;font-style:italic;" aria-hidden="true">{$t.experience.headingItalic1}</span>
+        <span style="position:relative;">{$t.experience.headingItalic1}</span>
       </span>,<br/>
-      two <span style="position:relative;display:inline-block;font-style:italic;">
-        <span style="position:absolute;left:3px;top:2px;color:#1F5D6B;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;font-style:italic;" aria-hidden="true">continents</span>
-        <span style="position:relative;">continents</span>
+      {$t.experience.headingLine2} <span style="position:relative;display:inline-block;font-style:italic;">
+        <span style="position:absolute;left:3px;top:2px;color:#1F5D6B;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;font-style:italic;" aria-hidden="true">{$t.experience.headingItalic2}</span>
+        <span style="position:relative;">{$t.experience.headingItalic2}</span>
       </span>.
     </h2>
 
     <!-- Stats row -->
     <div style="display:flex;gap:48px;margin-bottom:56px;flex-wrap:wrap;">
-      {#each [{label:'years',value:'8'},{label:'companies',value:String(new Set(experiences.map(e=>e.company)).size)},{label:'remote since',value:"'19"}] as stat}
+      {#each [{label:$t.experience.statYears,value:'8'},{label:$t.experience.statCompanies,value:String(new Set(experiences.map(e=>e.company)).size)},{label:$t.experience.statRemote,value:$t.experience.remoteValue}] as stat}
         <div>
           <div style="font-family:var(--font-mono);font-size:11px;color:#1C1A2E;opacity:0.6;letter-spacing:1.4px;text-transform:uppercase;">{stat.label}</div>
           <div style="font-family:var(--font-display);font-size:72px;color:#1F5D6B;line-height:1;margin-top:2px;">{stat.value}</div>
@@ -472,7 +473,7 @@
           <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;">
             <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:1px;opacity:0.8;">{formatDate(exp.startDate)} — {formatDate(exp.endDate)}</span>
             {#if !exp.endDate || exp.current}
-              <span style="background:{i===0?'#FFF8EE':'#1F5D6B'};color:{i===0?'#1F5D6B':'#FFF8EE'};padding:2px 8px;border-radius:999px;font-family:var(--font-mono);font-size:10px;font-weight:600;">● NOW</span>
+              <span style="background:{i===0?'#FFF8EE':'#1F5D6B'};color:{i===0?'#1F5D6B':'#FFF8EE'};padding:2px 8px;border-radius:999px;font-family:var(--font-mono);font-size:10px;font-weight:600;">{$t.experience.now}</span>
             {/if}
           </div>
           <h3 style="font-family:var(--font-display);font-weight:400;font-size:30px;margin:0;letter-spacing:-0.5px;line-height:1.05;">{exp.position}</h3>
@@ -504,24 +505,24 @@
   <div style="position:relative;z-index:1;max-width:1152px;margin:0 auto;">
     <!-- Eyebrow -->
     <div style="display:flex;align-items:center;gap:16px;margin-bottom:28px;">
-      <span style="background:#1C1A2E;color:white;padding:4px 10px;border-radius:999px;font-family:var(--font-mono);font-size:11px;letter-spacing:1.2px;">04 · Projects</span>
+      <span style="background:#1C1A2E;color:white;padding:4px 10px;border-radius:999px;font-family:var(--font-mono);font-size:11px;letter-spacing:1.2px;">{$t.projects.eyebrow}</span>
       <span style="flex:1;height:1px;background:#1C1A2E;opacity:0.3;"></span>
-      <span style="font-family:var(--font-mono);font-size:10px;color:#1C1A2E;opacity:0.6;letter-spacing:1.4px;">◉ LILAC / 22</span>
+      <span style="font-family:var(--font-mono);font-size:10px;color:#1C1A2E;opacity:0.6;letter-spacing:1.4px;">{$t.projects.palette}</span>
     </div>
 
     <!-- Big heading -->
     <h2 style="font-family:var(--font-display);font-weight:400;font-size:clamp(64px,10vw,160px);line-height:0.88;letter-spacing:-3px;margin:0 0 56px;color:#1C1A2E;">
       <span style="position:relative;display:inline-block;">
-        <span style="position:absolute;left:3px;top:2px;color:#5D3FD3;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;" aria-hidden="true">Things</span>
-        <span style="position:relative;">Things</span>
+        <span style="position:absolute;left:3px;top:2px;color:#5D3FD3;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;" aria-hidden="true">{$t.projects.headingWord1}</span>
+        <span style="position:relative;">{$t.projects.headingWord1}</span>
       </span>
       <span style="position:relative;display:inline-block;font-style:italic;">
-        <span style="position:absolute;left:3px;top:2px;color:#5D3FD3;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;font-style:italic;" aria-hidden="true">I built</span>
-        <span style="position:relative;">I built</span>
+        <span style="position:absolute;left:3px;top:2px;color:#5D3FD3;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;font-style:italic;" aria-hidden="true">{$t.projects.headingItalic}</span>
+        <span style="position:relative;">{$t.projects.headingItalic}</span>
       </span><br/>
-      that <span style="position:relative;display:inline-block;">
-        <span style="position:absolute;left:3px;top:2px;color:#5D3FD3;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;" aria-hidden="true">exist</span>
-        <span style="position:relative;">exist</span>
+      {$t.projects.headingWord2} <span style="position:relative;display:inline-block;">
+        <span style="position:absolute;left:3px;top:2px;color:#5D3FD3;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;" aria-hidden="true">{$t.projects.headingItalic2}</span>
+        <span style="position:relative;">{$t.projects.headingItalic2}</span>
       </span>.
     </h2>
 
@@ -564,7 +565,7 @@
         </div>
         <!-- Detail -->
         <div style="padding:8px 4px;">
-          <span style="font-family:var(--font-mono);font-size:11px;color:#FFF8EA;background:#5D3FD3;padding:4px 10px;border-radius:999px;letter-spacing:1.2px;">★ FEATURED</span>
+          <span style="font-family:var(--font-mono);font-size:11px;color:#FFF8EA;background:#5D3FD3;padding:4px 10px;border-radius:999px;letter-spacing:1.2px;">{$t.projects.featuredBadge}</span>
           <h3 style="font-family:var(--font-display);font-weight:400;font-size:clamp(32px,4vw,56px);margin:14px 0 8px;letter-spacing:-1px;line-height:1;color:#1C1A2E;">{featuredProject.title}</h3>
           <div style="font-family:var(--font-mono);font-size:11px;color:#1C1A2E;opacity:0.6;margin-bottom:14px;">{featuredProject.year} · {featuredProject.status.toUpperCase()}</div>
           <p style="font-family:var(--font-display);font-style:italic;font-size:22px;line-height:1.25;margin:0 0 12px;color:#1C1A2E;">{featuredProject.description}</p>
@@ -575,7 +576,7 @@
             {/each}
           </div>
           {#if featuredProject.liveUrl}
-            <a href={featuredProject.liveUrl} target="_blank" rel="noopener noreferrer" style="display:inline-block;font-family:var(--font-mono);font-size:11px;background:#1C1A2E;color:#FFF8EA;padding:8px 16px;border-radius:3px;text-decoration:none;letter-spacing:1px;">↗ VISIT SITE</a>
+            <a href={featuredProject.liveUrl} target="_blank" rel="noopener noreferrer" style="display:inline-block;font-family:var(--font-mono);font-size:11px;background:#1C1A2E;color:#FFF8EA;padding:8px 16px;border-radius:3px;text-decoration:none;letter-spacing:1px;">{$t.projects.visitSite}</a>
           {/if}
         </div>
       </div>
@@ -647,20 +648,20 @@
   <div style="position:relative;z-index:1;max-width:1152px;margin:0 auto;">
     <!-- Eyebrow -->
     <div style="display:flex;align-items:center;gap:16px;margin-bottom:28px;">
-      <span style="background:#1C1A2E;color:white;padding:4px 10px;border-radius:999px;font-family:var(--font-mono);font-size:11px;letter-spacing:1.2px;">05 · Publications</span>
+      <span style="background:#1C1A2E;color:white;padding:4px 10px;border-radius:999px;font-family:var(--font-mono);font-size:11px;letter-spacing:1.2px;">{$t.posts.eyebrow}</span>
       <span style="flex:1;height:1px;background:#1C1A2E;opacity:0.3;"></span>
-      <span style="font-family:var(--font-mono);font-size:10px;color:#1C1A2E;opacity:0.6;letter-spacing:1.4px;">◉ BUTTER / 07</span>
+      <span style="font-family:var(--font-mono);font-size:10px;color:#1C1A2E;opacity:0.6;letter-spacing:1.4px;">{$t.posts.palette}</span>
     </div>
 
     <!-- Big heading -->
     <h2 style="font-family:var(--font-display);font-weight:400;font-size:clamp(64px,10vw,160px);line-height:0.88;letter-spacing:-3px;margin:0 0 56px;color:#1C1A2E;">
       <span style="position:relative;display:inline-block;">
-        <span style="position:absolute;left:3px;top:2px;color:#B5532A;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;" aria-hidden="true">On the</span>
-        <span style="position:relative;">On the</span>
+        <span style="position:absolute;left:3px;top:2px;color:#B5532A;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;" aria-hidden="true">{$t.posts.headingLine1}</span>
+        <span style="position:relative;">{$t.posts.headingLine1}</span>
       </span>
       <span style="position:relative;display:inline-block;font-style:italic;">
-        <span style="position:absolute;left:3px;top:2px;color:#B5532A;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;font-style:italic;" aria-hidden="true">record</span>
-        <span style="position:relative;">record</span>
+        <span style="position:absolute;left:3px;top:2px;color:#B5532A;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;font-style:italic;" aria-hidden="true">{$t.posts.headingItalic}</span>
+        <span style="position:relative;">{$t.posts.headingItalic}</span>
       </span>.
     </h2>
 
@@ -673,7 +674,7 @@
           <div style="border-left:2px solid #1C1A2E;padding-left:20px;">
             <div style="font-family:var(--font-mono);font-size:10px;color:#1C1A2E;opacity:0.6;letter-spacing:1.2px;">{formatPublicationDate(mediumArticles[0].pubDate).toUpperCase()} · {calculateReadTime(mediumArticles[0].description)}</div>
             <div style="font-family:var(--font-display);font-size:22px;font-weight:400;margin-top:6px;line-height:1.1;color:#1C1A2E;">{mediumArticles[0].title}</div>
-            <a href={mediumArticles[0].link} target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:14px;font-family:var(--font-mono);font-size:11px;background:#1C1A2E;color:#FFF8EA;padding:6px 12px;border-radius:3px;text-decoration:none;letter-spacing:1px;text-transform:uppercase;">Read on Medium →</a>
+            <a href={mediumArticles[0].link} target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:14px;font-family:var(--font-mono);font-size:11px;background:#1C1A2E;color:#FFF8EA;padding:6px 12px;border-radius:3px;text-decoration:none;letter-spacing:1px;text-transform:uppercase;">{$t.posts.readOnMedium}</a>
           </div>
         </div>
       </div>
@@ -689,20 +690,20 @@
               <div style="font-family:var(--font-body);font-size:14px;font-weight:600;color:#1C1A2E;">{article.title}</div>
               <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:6px;">
                 <span style="font-family:var(--font-mono);font-size:10px;opacity:0.6;color:#1C1A2E;">{article.categories?.slice(0,3).map(c => '#'+c).join(' ')}</span>
-                <a href={article.link} target="_blank" rel="noopener noreferrer" style="font-family:var(--font-mono);font-size:10px;color:#B5532A;text-decoration:none;letter-spacing:1px;text-transform:uppercase;border-bottom:1px solid #B5532A;">read →</a>
+                <a href={article.link} target="_blank" rel="noopener noreferrer" style="font-family:var(--font-mono);font-size:10px;color:#B5532A;text-decoration:none;letter-spacing:1px;text-transform:uppercase;border-bottom:1px solid #B5532A;">{$t.posts.readLink}</a>
               </div>
             </div>
           </article>
         {/each}
       </div>
     {:else}
-      <div style="text-align:center;padding:80px 0;font-family:var(--font-body);font-size:18px;color:#1C1A2E;opacity:0.5;">No publications yet — check back soon.</div>
+      <div style="text-align:center;padding:80px 0;font-family:var(--font-body);font-size:18px;color:#1C1A2E;opacity:0.5;">{$t.posts.emptyState}</div>
     {/if}
 
     <!-- Footer -->
     <div style="margin-top:100px;padding-top:24px;border-top:2px solid #1C1A2E;display:flex;justify-content:space-between;align-items:baseline;">
-      <div style="font-family:var(--font-display);font-weight:400;font-size:40px;font-style:italic;letter-spacing:-0.6px;color:#1C1A2E;">Federico Rudolf</div>
-      <div style="font-family:var(--font-mono);font-size:11px;color:#1C1A2E;opacity:0.7;letter-spacing:0.6px;">© 2026 · BUILT WITH SVELTE ♥</div>
+      <div style="font-family:var(--font-display);font-weight:400;font-size:40px;font-style:italic;letter-spacing:-0.6px;color:#1C1A2E;">{$t.footer.name}</div>
+      <div style="font-family:var(--font-mono);font-size:11px;color:#1C1A2E;opacity:0.7;letter-spacing:0.6px;">{$t.footer.copy}</div>
     </div>
   </div>
 </section>

@@ -160,6 +160,12 @@ export const translations = {
     skills: {
       title: 'Skills & Expertise',
       subtitle: 'A comprehensive overview of my technical skills and proficiency levels across various technologies and domains.',
+      eyebrow: '02 · Skills',
+      palette: '◉ PEACH / 04',
+      headingLine1: 'What I',
+      headingItalic: 'actually',
+      headingRest: 'use.',
+      headingSubtitle: 'Listed by category, weighted by how often they show up in shipped work. Bigger means I reach for it first.',
       categories: {
         'Languages': 'Languages',
         'Frontend': 'Frontend',
@@ -183,7 +189,18 @@ export const translations = {
       responsibilities: 'Key Responsibilities:',
       technologies: 'Technologies:',
       showMore: 'Show More',
-      showLess: 'Show Less'
+      showLess: 'Show Less',
+      eyebrow: '03 · Experience',
+      palette: '◉ MINT / 11',
+      headingLine1: 'Eight',
+      headingItalic1: 'years',
+      headingLine2: 'two',
+      headingItalic2: 'continents',
+      statYears: 'years',
+      statCompanies: 'companies',
+      statRemote: 'remote since',
+      remoteValue: "'19",
+      now: '● NOW'
     },
     projects: {
       title: 'Projects',
@@ -193,6 +210,14 @@ export const translations = {
       code: 'Code',
       demo: 'Demo',
       liveDemo: 'Live Demo',
+      eyebrow: '04 · Projects',
+      palette: '◉ LILAC / 22',
+      headingWord1: 'Things',
+      headingItalic: 'I built',
+      headingWord2: 'that',
+      headingItalic2: 'exist',
+      featuredBadge: '★ FEATURED',
+      visitSite: '↗ VISIT SITE',
       status: {
         completed: 'Completed',
         'in-progress': 'In Progress',
@@ -207,7 +232,17 @@ export const translations = {
       subtitle: 'Articles, tutorials, and technical writings sharing knowledge and insights with the developer community.',
       readArticle: 'Read Article',
       readTime: 'min read',
-      emptyState: 'No publications yet. Check back soon!'
+      emptyState: 'No publications yet. Check back soon!',
+      eyebrow: '05 · Publications',
+      palette: '◉ BUTTER / 07',
+      headingLine1: 'On the',
+      headingItalic: 'record',
+      readOnMedium: 'Read on Medium →',
+      readLink: 'read →'
+    },
+    footer: {
+      name: 'Federico Rudolf',
+      copy: '© 2026 · BUILT WITH SVELTE ♥'
     }
   },
   es: {
@@ -371,6 +406,12 @@ export const translations = {
     skills: {
       title: 'Habilidades y Experiencia',
       subtitle: 'Una visión integral de mis habilidades técnicas y niveles de competencia en diversas tecnologías y dominios.',
+      eyebrow: '02 · Habilidades',
+      palette: '◉ DURAZNO / 04',
+      headingLine1: 'Lo que',
+      headingItalic: 'realmente',
+      headingRest: 'uso.',
+      headingSubtitle: 'Por categoría, ponderado por cuánto aparece en trabajo enviado a producción. Más grande = lo que elijo primero.',
       categories: {
         'Languages': 'Lenguajes',
         'Frontend': 'Frontend',
@@ -394,7 +435,18 @@ export const translations = {
       responsibilities: 'Responsabilidades Clave:',
       technologies: 'Tecnologías:',
       showMore: 'Mostrar Más',
-      showLess: 'Mostrar Menos'
+      showLess: 'Mostrar Menos',
+      eyebrow: '03 · Experiencia',
+      palette: '◉ MENTA / 11',
+      headingLine1: 'Ocho',
+      headingItalic1: 'años',
+      headingLine2: 'dos',
+      headingItalic2: 'continentes',
+      statYears: 'años',
+      statCompanies: 'empresas',
+      statRemote: 'remoto desde',
+      remoteValue: "'19",
+      now: '● AHORA'
     },
     projects: {
       title: 'Proyectos',
@@ -404,6 +456,14 @@ export const translations = {
       code: 'Código',
       demo: 'Demo',
       liveDemo: 'Demo en Vivo',
+      eyebrow: '04 · Proyectos',
+      palette: '◉ LILA / 22',
+      headingWord1: 'Cosas',
+      headingItalic: 'que construí',
+      headingWord2: 'que',
+      headingItalic2: 'existen',
+      featuredBadge: '★ DESTACADO',
+      visitSite: '↗ VER SITIO',
       status: {
         completed: 'Completado',
         'in-progress': 'En Progreso',
@@ -418,7 +478,17 @@ export const translations = {
       subtitle: 'Artículos, tutoriales y escritos técnicos compartiendo conocimiento e ideas con la comunidad de desarrolladores.',
       readArticle: 'Leer Artículo',
       readTime: 'min de lectura',
-      emptyState: '¡Aún no hay publicaciones. Vuelve pronto!'
+      emptyState: '¡Aún no hay publicaciones. Vuelve pronto!',
+      eyebrow: '05 · Publicaciones',
+      palette: '◉ MANTECA / 07',
+      headingLine1: 'En el',
+      headingItalic: 'registro',
+      readOnMedium: 'Leer en Medium →',
+      readLink: 'leer →'
+    },
+    footer: {
+      name: 'Federico Rudolf',
+      copy: '© 2026 · HECHO CON SVELTE ♥'
     }
   }
 };
