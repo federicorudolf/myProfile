@@ -205,6 +205,15 @@
     return acc;
   }, {} as Record<string, typeof skills>);
 
+  // Status pill style for project cards
+  function statusStyle(s: string): string {
+    if (s === 'active')       return 'background:#1F5D6B;color:#FFF8EA;border-color:#1F5D6B;';
+    if (s === 'in-progress')  return 'background:#B5532A;color:#FFF8EA;border-color:#B5532A;';
+    if (s === 'deprecated' || s === 'exited')
+                              return 'background:rgba(28,26,46,0.1);color:rgba(28,26,46,0.45);border-color:rgba(28,26,46,0.2);';
+    return 'background:#1C1A2E;color:#FFF8EA;border-color:#1C1A2E;';
+  }
+
   // Weight: level >= 80 → 3, 60-79 → 2, <60 → 1
   function skillWeight(level: number): 1 | 2 | 3 {
     if (level >= 80) return 3;
@@ -467,9 +476,9 @@
     </div>
 
     <!-- Detail cards grid -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;">
       {#each experiences as exp, i}
-        <article style="background:{i===0?'#1F5D6B':'#EAF7EE'};color:{i===0?'#FFF8EE':'#1C1A2E'};border:2px solid #1C1A2E;padding:20px 24px;box-shadow:5px 5px 0 #1C1A2E;position:relative;overflow:hidden;">
+        <article style="background:{i===0?'#1F5D6B':'#EAF7EE'};color:{i===0?'#FFF8EE':'#1C1A2E'};border:2px solid #1C1A2E;padding:20px 24px;box-shadow:5px 5px 0 #1C1A2E;position:relative;overflow:hidden;min-width:0;">
           <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;">
             <span style="font-family:var(--font-mono);font-size:11px;letter-spacing:1px;opacity:0.8;">{formatDate(exp.startDate)} — {formatDate(exp.endDate)}</span>
             {#if !exp.endDate || exp.current}
@@ -478,7 +487,7 @@
           </div>
           <h3 style="font-family:var(--font-display);font-weight:400;font-size:30px;margin:0;letter-spacing:-0.5px;line-height:1.05;">{exp.position}</h3>
           <div style="font-family:var(--font-body);font-weight:600;font-size:14px;margin-top:4px;opacity:0.9;">{exp.company} · {exp.location}</div>
-          <p style="font-family:var(--font-body);font-size:14px;line-height:1.45;margin:12px 0 0;opacity:0.85;">{exp.responsibilities[0]}</p>
+          <p style="font-family:var(--font-body);font-size:14px;line-height:1.45;margin:12px 0 0;opacity:0.85;overflow-wrap:break-word;">{exp.responsibilities[0]}</p>
           <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:14px;">
             {#each exp.technologies.slice(0,5) as tech}
               <span style="font-family:var(--font-mono);font-size:10px;padding:2px 6px;border:1.5px solid {i===0?'#FFF8EE':'#1C1A2E'};border-radius:3px;">{tech}</span>
@@ -621,10 +630,18 @@
               <span style="font-family:var(--font-mono);font-size:10px;opacity:0.5;color:#1C1A2E;">{proj.year}</span>
             </div>
             <p style="font-family:var(--font-body);font-size:12.5px;color:#1C1A2E;opacity:0.75;margin:0 0 8px;line-height:1.4;">{proj.description}</p>
-            <div style="display:flex;flex-wrap:wrap;gap:3px;">
+            <div style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:10px;">
               {#each proj.technologies.slice(0,3) as tech}
                 <span style="font-family:var(--font-mono);font-size:10px;padding:1.5px 6px;border:1px solid #1C1A2E;border-radius:3px;color:#1C1A2E;">{tech}</span>
               {/each}
+            </div>
+            <div style="display:flex;gap:4px;flex-wrap:wrap;">
+              {#if proj.featured}
+                <span style="font-family:var(--font-mono);font-size:9px;padding:2px 7px;border-radius:999px;border:1.5px solid #5D3FD3;background:#5D3FD3;color:#FFF8EA;letter-spacing:0.8px;">★ FEATURED</span>
+              {/if}
+              <span style="font-family:var(--font-mono);font-size:9px;padding:2px 7px;border-radius:999px;border:1.5px solid;letter-spacing:0.8px;{statusStyle(proj.status)}">
+                {($t.projects.status as Record<string,string>)[proj.status]?.toUpperCase() || proj.status.toUpperCase()}
+              </span>
             </div>
           </div>
         </article>

@@ -119,30 +119,6 @@ export const experiences = [
     ]
   },
   {
-    company: 'Grupo Assa',
-    position: 'Frontend Developer (Project-based)',
-    location: 'Remote',
-    startDate: '2020-01',
-    endDate: '2020-12',
-    current: false,
-    description:
-      'Development of a public-facing sustainability report platform focused on performance, accessibility, and internationalization.',
-    responsibilities: [
-      'Developed a web-based sustainability report for Grupo Assa',
-      'Implemented internationalization (i18n) support for multi-language content',
-      'Collaborated with designers to integrate animations and interactive elements',
-      'Ensured performance, responsiveness, and cross-browser compatibility'
-    ],
-    technologies: [
-      'Angular 9',
-      'SASS',
-      'Bootstrap',
-      'Firebase',
-      'i18n',
-      'Lottie Animations'
-    ]
-  },
-  {
     company: 'GlobalLogic',
     position: 'Senior Web UI Developer',
     location: 'Remote',
@@ -235,30 +211,6 @@ export const projects = [
     featured: false,
     status: 'deprecated',
     year: '2018'
-  },
-  {
-    title: 'Jazmín de Rosas',
-    role: 'Co-Founder & Developer',
-    description:
-      'Custom e-commerce solution for a makeup retailer built on top of Magento.',
-    longDescription:
-      'E-commerce platform developed for a retail-focused makeup brand. The project required working within Magento\'s rigid architecture while delivering custom payment behavior and aligning technical decisions with a non-technical business.',
-    technologies: ['Magento', 'PHP', 'Custom Payment Integrations'],
-    challenges: [
-      'Working within Magento\'s rigid architecture while delivering custom functionality',
-      'Balancing technical decisions with retail-driven business priorities',
-      'Navigating a partnership exit without compromising the product or team'
-    ],
-    learnings: [
-      'Technical decisions must align with business maturity and goals',
-      'Clear communication is critical when working with non-technical stakeholders',
-      'Exiting a partnership cleanly is a professional skill, not a failure'
-    ],
-    image: 'https://jazminderosas.com/media/wysiwyg/logo-jazmin.png',
-    websiteUrl: 'https://jazminderosas.com/',
-    featured: false,
-    status: 'exited',
-    year: '2019'
   },
   {
     title: 'Randall',

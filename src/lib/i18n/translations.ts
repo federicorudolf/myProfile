@@ -45,18 +45,6 @@ export const translations = {
         ]
       },
       {
-        company: 'Grupo Assa',
-        position: 'Frontend Developer (Project-based)',
-        location: 'Remote',
-        description: 'Development of a public-facing sustainability report platform focused on performance, accessibility, and internationalization.',
-        responsibilities: [
-          'Developed a web-based sustainability report for Grupo Assa',
-          'Implemented internationalization (i18n) support for multi-language content',
-          'Collaborated with designers to integrate animations and interactive elements',
-          'Ensured performance, responsiveness, and cross-browser compatibility'
-        ]
-      },
-      {
         company: 'GlobalLogic',
         position: 'Senior Web UI Developer',
         location: 'Remote',
@@ -98,11 +86,6 @@ export const translations = {
         title: 'Triangulo',
         description: 'Billing platform designed to help freelancers manage invoicing and payments through a unified workflow.',
         longDescription: 'Triangulo was a billing platform built for freelancers, focused on flexible invoicing flows and local payment integrations. The project explored multiple freelancer use cases, implemented MercadoPago payments, and maintained a scalable architecture despite limited early-stage tooling. The product was responsibly deprecated after failing to achieve product–market fit.'
-      },
-      {
-        title: 'Jazmín de Rosas',
-        description: 'Custom e-commerce solution for a makeup retailer built on top of Magento.',
-        longDescription: 'E-commerce platform developed for a retail-focused makeup brand. The project required working within Magento\'s rigid architecture while delivering custom payment behavior and aligning technical decisions with a non-technical business.'
       },
       {
         title: 'Randall',
@@ -291,18 +274,6 @@ export const translations = {
         ]
       },
       {
-        company: 'Grupo Assa',
-        position: 'Desarrollador Frontend (Proyecto)',
-        location: 'Remoto',
-        description: 'Desarrollo de una plataforma de informe de sostenibilidad de cara al público, enfocado en rendimiento, accesibilidad e internacionalización.',
-        responsibilities: [
-          'Desarrollé un informe de sostenibilidad web para Grupo Assa',
-          'Implementé soporte de internacionalización (i18n) para contenido multiidioma',
-          'Colaboré con diseñadores para integrar animaciones y elementos interactivos',
-          'Aseguré rendimiento, responsividad y compatibilidad entre navegadores'
-        ]
-      },
-      {
         company: 'GlobalLogic',
         position: 'Desarrollador Web UI Senior',
         location: 'Remoto',
@@ -344,11 +315,6 @@ export const translations = {
         title: 'Triangulo',
         description: 'Plataforma de facturación diseñada para ayudar a freelancers a gestionar la facturación y pagos a través de un flujo de trabajo unificado.',
         longDescription: 'Triangulo fue una plataforma de facturación construida para freelancers, enfocada en flujos de facturación flexibles e integraciones de pago locales. El proyecto exploró múltiples casos de uso de freelancers, implementó pagos de MercadoPago, y mantuvo una arquitectura escalable a pesar de las limitadas herramientas en etapa temprana. El producto fue responsablemente deprecado después de no lograr product–market fit.'
-      },
-      {
-        title: 'Jazmín de Rosas',
-        description: 'Solución de e-commerce personalizada para un minorista de maquillaje construida sobre Magento.',
-        longDescription: 'Plataforma de e-commerce desarrollada para una marca de maquillaje enfocada en retail. El proyecto requirió trabajar dentro de la arquitectura rígida de Magento mientras se entregaba comportamiento de pago personalizado y se alineaban las decisiones técnicas con un negocio no técnico.'
       },
       {
         title: 'Randall',
