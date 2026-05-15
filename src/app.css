@@ -32,6 +32,13 @@
   /* --- Fonts --- */
   --mainFont: 'IBM Plex Mono', monospace;
 
+  /* --- Risograph Design System --- */
+  --ink: #1C1A2E;
+  --ink-dim: rgba(28,26,46,0.65);
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'Geist Mono', 'IBM Plex Mono', ui-monospace, monospace;
+
 }
 
 html {
