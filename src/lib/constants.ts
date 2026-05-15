@@ -13,6 +13,8 @@ export const skills = [
   { name: 'Ruby on Rails', level: 75, category: 'Frameworks & Libraries' },
   { name: 'Angular', level: 85, category: 'Frameworks & Libraries' },
   { name: 'Node.js', level: 78, category: 'Frameworks & Libraries' },
+  { name: 'Flask', level: 72, category: 'Frameworks & Libraries' },
+  { name: 'FastAPI', level: 70, category: 'Frameworks & Libraries' },
 
   // ─── AI Tools ─────────────────
   { name: 'Fine tuning', level: 78, category: 'AI/ML' },
