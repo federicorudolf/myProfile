@@ -344,11 +344,11 @@
     <!-- Big heading -->
     <h2 style="font-family:var(--font-display);font-weight:400;font-size:clamp(72px,10vw,160px);line-height:0.88;letter-spacing:-3px;margin:0 0 32px;color:#1C1A2E;">
       <span style="position:relative;display:inline-block;">
-        <span style="position:absolute;left:3px;top:2px;color:#E0524A;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;" aria-hidden="true">{$t.skills.headingLine1}</span>
+        <span style="position:absolute;left:1px;top:1px;color:#E0524A;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;" aria-hidden="true">{$t.skills.headingLine1}</span>
         <span style="position:relative;">{$t.skills.headingLine1}</span>
       </span><br/>
       <span style="position:relative;display:inline-block;font-style:italic;">
-        <span style="position:absolute;left:3px;top:2px;color:#E0524A;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;font-style:italic;" aria-hidden="true">{$t.skills.headingItalic}</span>
+        <span style="position:absolute;left:1px;top:1px;color:#E0524A;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;font-style:italic;" aria-hidden="true">{$t.skills.headingItalic}</span>
         <span style="position:relative;">{$t.skills.headingItalic}</span>
       </span> {$t.skills.headingRest}
     </h2>
@@ -417,11 +417,11 @@
     <!-- Big heading -->
     <h2 style="font-family:var(--font-display);font-weight:400;font-size:clamp(64px,10vw,160px);line-height:0.88;letter-spacing:-3px;margin:0 0 56px;color:#1C1A2E;">
       {$t.experience.headingLine1} <span style="position:relative;display:inline-block;font-style:italic;">
-        <span style="position:absolute;left:3px;top:2px;color:#1F5D6B;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;font-style:italic;" aria-hidden="true">{$t.experience.headingItalic1}</span>
+        <span style="position:absolute;left:1px;top:1px;color:#1F5D6B;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;font-style:italic;" aria-hidden="true">{$t.experience.headingItalic1}</span>
         <span style="position:relative;">{$t.experience.headingItalic1}</span>
       </span>,<br/>
       {$t.experience.headingLine2} <span style="position:relative;display:inline-block;font-style:italic;">
-        <span style="position:absolute;left:3px;top:2px;color:#1F5D6B;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;font-style:italic;" aria-hidden="true">{$t.experience.headingItalic2}</span>
+        <span style="position:absolute;left:1px;top:1px;color:#1F5D6B;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;font-style:italic;" aria-hidden="true">{$t.experience.headingItalic2}</span>
         <span style="position:relative;">{$t.experience.headingItalic2}</span>
       </span>.
     </h2>
@@ -513,15 +513,15 @@
     <!-- Big heading -->
     <h2 style="font-family:var(--font-display);font-weight:400;font-size:clamp(64px,10vw,160px);line-height:0.88;letter-spacing:-3px;margin:0 0 56px;color:#1C1A2E;">
       <span style="position:relative;display:inline-block;">
-        <span style="position:absolute;left:3px;top:2px;color:#5D3FD3;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;" aria-hidden="true">{$t.projects.headingWord1}</span>
+        <span style="position:absolute;left:1px;top:1px;color:#5D3FD3;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;" aria-hidden="true">{$t.projects.headingWord1}</span>
         <span style="position:relative;">{$t.projects.headingWord1}</span>
       </span>
       <span style="position:relative;display:inline-block;font-style:italic;">
-        <span style="position:absolute;left:3px;top:2px;color:#5D3FD3;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;font-style:italic;" aria-hidden="true">{$t.projects.headingItalic}</span>
+        <span style="position:absolute;left:1px;top:1px;color:#5D3FD3;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;font-style:italic;" aria-hidden="true">{$t.projects.headingItalic}</span>
         <span style="position:relative;">{$t.projects.headingItalic}</span>
       </span><br/>
       {$t.projects.headingWord2} <span style="position:relative;display:inline-block;">
-        <span style="position:absolute;left:3px;top:2px;color:#5D3FD3;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;" aria-hidden="true">{$t.projects.headingItalic2}</span>
+        <span style="position:absolute;left:1px;top:1px;color:#5D3FD3;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;" aria-hidden="true">{$t.projects.headingItalic2}</span>
         <span style="position:relative;">{$t.projects.headingItalic2}</span>
       </span>.
     </h2>
@@ -554,7 +554,7 @@
             {/if}
             <div style="position:relative;text-align:center;padding:24px;">
               <div style="position:relative;display:inline-block;">
-                <div style="position:absolute;top:3px;left:4px;color:#5D3FD3;mix-blend-mode:multiply;font-family:var(--font-display);font-size:clamp(36px,5vw,72px);line-height:0.9;letter-spacing:-1.5px;">{featuredProject.title}</div>
+                <div style="position:absolute;top:1px;left:1.5px;color:#5D3FD3;mix-blend-mode:multiply;font-family:var(--font-display);font-size:clamp(36px,5vw,72px);line-height:0.9;letter-spacing:-1.5px;">{featuredProject.title}</div>
                 <div style="position:relative;color:#1C1A2E;font-family:var(--font-display);font-size:clamp(36px,5vw,72px);line-height:0.9;letter-spacing:-1.5px;">{featuredProject.title}</div>
               </div>
               {#if featuredProject.liveUrl}
@@ -609,7 +609,7 @@
               {/if}
               <div style="position:relative;text-align:center;padding:12px;">
                 <div style="position:relative;display:inline-block;">
-                  <div style="position:absolute;top:2px;left:3px;color:#5D3FD3;mix-blend-mode:multiply;font-family:var(--font-display);font-size:clamp(24px,3vw,40px);line-height:0.9;letter-spacing:-1px;">{proj.title}</div>
+                  <div style="position:absolute;top:1px;left:1px;color:#5D3FD3;mix-blend-mode:multiply;font-family:var(--font-display);font-size:clamp(24px,3vw,40px);line-height:0.9;letter-spacing:-1px;">{proj.title}</div>
                   <div style="position:relative;color:#1C1A2E;font-family:var(--font-display);font-size:clamp(24px,3vw,40px);line-height:0.9;letter-spacing:-1px;">{proj.title}</div>
                 </div>
               </div>
@@ -656,11 +656,11 @@
     <!-- Big heading -->
     <h2 style="font-family:var(--font-display);font-weight:400;font-size:clamp(64px,10vw,160px);line-height:0.88;letter-spacing:-3px;margin:0 0 56px;color:#1C1A2E;">
       <span style="position:relative;display:inline-block;">
-        <span style="position:absolute;left:3px;top:2px;color:#B5532A;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;" aria-hidden="true">{$t.posts.headingLine1}</span>
+        <span style="position:absolute;left:1px;top:1px;color:#B5532A;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;" aria-hidden="true">{$t.posts.headingLine1}</span>
         <span style="position:relative;">{$t.posts.headingLine1}</span>
       </span>
       <span style="position:relative;display:inline-block;font-style:italic;">
-        <span style="position:absolute;left:3px;top:2px;color:#B5532A;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;font-style:italic;" aria-hidden="true">{$t.posts.headingItalic}</span>
+        <span style="position:absolute;left:1px;top:1px;color:#B5532A;mix-blend-mode:multiply;opacity:0.8;pointer-events:none;font-style:italic;" aria-hidden="true">{$t.posts.headingItalic}</span>
         <span style="position:relative;">{$t.posts.headingItalic}</span>
       </span>.
     </h2>
