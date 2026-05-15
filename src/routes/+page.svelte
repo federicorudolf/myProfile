@@ -509,7 +509,7 @@
     <div class="skills-grid grid grid-cols-1 lg:grid-cols-2 gap-6">
       {#each Object.entries(skillsByCategory) as [category, categorySkills], ci}
         <div
-          class="category-card bg-gray-800/30 backdrop-blur-sm p-6 rounded-2xl border border-gray-700 relative overflow-hidden skill-card-entrance"
+          class="category-card bg-gray-800/30 backdrop-blur-sm p-6 rounded-2xl border border-gray-700 relative overflow-hidden skill-card-entrance {skillsVisible ? 'skill-entrance-visible' : ''}"
           style="--hover-border-color: {categoryHoverColors[category]}; --entrance-delay: {ci * 100}ms"
           on:mousemove={(e) => {
             const rect = e.currentTarget.getBoundingClientRect();
@@ -1138,8 +1138,10 @@
                 transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) var(--entrance-delay, 0ms),
                 border-color 0.3s ease, box-shadow 0.3s ease;
   }
-  /* Trigger via JS adding class, but since skillsVisible flips let's use it */
-  /* We'll rely on the IntersectionObserver adding visible via skillsVisible */
+  .skill-entrance-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
   .category-card {
     position: relative;
