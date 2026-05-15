@@ -137,6 +137,15 @@
   let categoryTitleColors: Record<string, string> = {};
   let categoryHoverColors: Record<string, string> = {};
 
+  let visibleExperiences: boolean[] = experiencesData.map(() => false);
+  let visibleProjects: boolean[] = projectsData.map(() => false);
+  let visibleSkillCards: Record<string, boolean> = {};
+  let skillsVisible = false;
+  let experienceRefs: (HTMLElement | null)[] = [];
+  let projectRefs: (HTMLElement | null)[] = [];
+  let skillCardRefs: Record<string, HTMLElement | null> = {};
+  let skillCounters: Record<string, number[]> = {};
+
   // Random colors for various decorative elements
   const accentColors = {
     experienceCompany: getRandomBrandColor(),
@@ -150,6 +159,28 @@
   const toggleExperience = (index: number) => {
     expandedExperiences[index] = !expandedExperiences[index];
   };
+
+  function handleProjectTilt(e: MouseEvent, card: HTMLElement) {
+    const rect = card.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    card.style.transform = `perspective(1000px) rotateY(${x * 10}deg) rotateX(${-y * 10}deg) translateZ(10px)`;
+  }
+
+  function resetProjectTilt(card: HTMLElement) {
+    card.style.transform = '';
+  }
+
+  function animateCounter(el: HTMLElement, target: number, duration: number = 1200) {
+    const start = performance.now();
+    const tick = (now: number) => {
+      const progress = Math.min((now - start) / duration, 1);
+      const ease = progress < 0.5 ? 4 * progress * progress * progress : (progress - 1) * (2 * progress - 2) * (2 * progress - 2) + 1;
+      el.textContent = Math.round(ease * target) + '%';
+      if (progress < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
 
   onMount(() => {
     // Setup mini charts for each category
@@ -245,6 +276,60 @@
       visible = true;
     });
 
+    // Experience observers
+    const expObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const i = experienceRefs.indexOf(entry.target as HTMLElement);
+          if (i !== -1) {
+            setTimeout(() => {
+              visibleExperiences[i] = true;
+              visibleExperiences = [...visibleExperiences];
+            }, i * 120);
+          }
+        }
+      });
+    }, { threshold: 0.15 });
+
+    // Project observers
+    const projObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const i = projectRefs.indexOf(entry.target as HTMLElement);
+          if (i !== -1) {
+            setTimeout(() => {
+              visibleProjects[i] = true;
+              visibleProjects = [...visibleProjects];
+            }, i * 80);
+          }
+        }
+      });
+    }, { threshold: 0.1 });
+
+    // Skills section observer
+    const skillsSectionEl = document.getElementById('skills');
+    const skillsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !skillsVisible) {
+          skillsVisible = true;
+          // Animate counters
+          categories.forEach((category, ci) => {
+            const catSkills = skillsByCategory[category];
+            catSkills.forEach((skill, si) => {
+              const el = document.getElementById(`counter-${category.replace(/\s+/g, '-').toLowerCase()}-${si}`);
+              if (el) setTimeout(() => animateCounter(el, skill.level, 1200), ci * 150 + si * 80);
+            });
+          });
+        }
+      });
+    }, { threshold: 0.1 });
+
+    setTimeout(() => {
+      experienceRefs.forEach(el => el && expObserver.observe(el));
+      projectRefs.forEach(el => el && projObserver.observe(el));
+      if (skillsSectionEl) skillsObserver.observe(skillsSectionEl);
+    }, 100);
+
     // Setup scroll listener for progressive name animation
     const nameElement = document.querySelector('.name-hover') as HTMLElement;
 
@@ -289,6 +374,9 @@
       Object.values(categoryCharts).forEach(chart => chart.destroy());
       document.removeEventListener('click', handleAnchorClick);
       window.removeEventListener('scroll', handleScroll);
+      expObserver.disconnect();
+      projObserver.disconnect();
+      skillsObserver.disconnect();
     };
   });
 
@@ -361,6 +449,21 @@
       return `${years} year${years !== 1 ? 's' : ''}, ${remainingMonths} month${remainingMonths !== 1 ? 's' : ''}`;
     }
   }
+
+  const maxMonths = (() => {
+    return Math.max(...experiencesData.map(exp => {
+      const start = new Date(exp.startDate);
+      const end = exp.endDate ? new Date(exp.endDate) : new Date();
+      return (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
+    }));
+  })();
+
+  function durationPercent(exp: typeof experiencesData[0]): number {
+    const start = new Date(exp.startDate);
+    const end = exp.endDate ? new Date(exp.endDate) : new Date();
+    const months = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
+    return Math.round((months / maxMonths) * 100);
+  }
 </script>
 
 <!-- Hero Section -->
@@ -404,15 +507,47 @@
 
     <!-- Skills Grid with Mini Charts -->
     <div class="skills-grid grid grid-cols-1 lg:grid-cols-2 gap-6">
-      {#each Object.entries(skillsByCategory) as [category, categorySkills]}
-        <div class="category-card bg-gray-800/30 backdrop-blur-sm p-6 rounded-2xl border border-gray-700" style="--hover-border-color: {categoryHoverColors[category]}">
-          <h2 class="text-xl font-bold mb-4 flex items-center gap-2" style="color: {categoryTitleColors[category]}">
-            <span class="w-1 h-6 rounded-full" style="background-color: {getOppositeBrandColor(categoryTitleColors[category])}"></span>
+      {#each Object.entries(skillsByCategory) as [category, categorySkills], ci}
+        <div
+          class="category-card bg-gray-800/30 backdrop-blur-sm p-6 rounded-2xl border border-gray-700 relative overflow-hidden skill-card-entrance"
+          style="--hover-border-color: {categoryHoverColors[category]}; --entrance-delay: {ci * 100}ms"
+          on:mousemove={(e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            e.currentTarget.style.setProperty('--mouse-x', ((e.clientX - rect.left) / rect.width * 100) + '%');
+            e.currentTarget.style.setProperty('--mouse-y', ((e.clientY - rect.top) / rect.height * 100) + '%');
+          }}
+        >
+          <!-- Cursor glow -->
+          <div class="cursor-glow"></div>
+
+          <h2 class="text-xl font-bold mb-5 flex items-center gap-2 relative z-10" style="color: {categoryTitleColors[category]}">
+            <span class="w-1 h-6 rounded-full shrink-0" style="background-color: {getOppositeBrandColor(categoryTitleColors[category])}"></span>
             {$t.skills.categories[category] || category}
           </h2>
 
-          <!-- Mini Chart -->
-          <div class="chart-wrapper mb-4" style="height: {categorySkills.length * 32}px; min-height: 120px; max-height: 300px;">
+          <!-- Custom skill bars -->
+          <div class="space-y-3 mb-4 relative z-10">
+            {#each categorySkills as skill, si}
+              <div class="skill-row">
+                <div class="flex justify-between mb-1">
+                  <span class="text-sm text-gray-300">{skill.name}</span>
+                  <span
+                    id="counter-{category.replace(/\s+/g, '-').toLowerCase()}-{si}"
+                    class="text-xs text-gray-400 font-mono"
+                  >0%</span>
+                </div>
+                <div class="skill-track">
+                  <div
+                    class="skill-fill {skillsVisible ? 'skill-fill-animate' : ''}"
+                    style="--level: {skill.level}%; background: {categoryTitleColors[category]}; --bar-delay: {ci * 150 + si * 80}ms"
+                  ></div>
+                </div>
+              </div>
+            {/each}
+          </div>
+
+          <!-- Mini chart (keep for visual richness, below bars) -->
+          <div class="chart-wrapper relative z-10" style="height: {Math.max(80, categorySkills.length * 22)}px; min-height: 80px; max-height: 200px; opacity: 0.5; margin-top: 8px;">
             <canvas id="chart-{category.replace(/\s+/g, '-').toLowerCase()}"></canvas>
           </div>
         </div>
@@ -423,101 +558,108 @@
 
 <!-- Work Experience Section -->
 <section id="trabajos" class="experience-section min-h-screen py-20 px-4 md:px-8">
-  <div class="max-w-7xl mx-auto">
+  <div class="max-w-5xl mx-auto">
     <h1 class="text-4xl md:text-6xl font-bold mb-4 section-title text-center">{$t.experience.title}</h1>
-    <p class="text-gray-400 text-center mb-12 max-w-2xl mx-auto">
-      {$t.experience.subtitle}
-    </p>
+    <p class="text-gray-400 text-center mb-20 max-w-2xl mx-auto">{$t.experience.subtitle}</p>
 
-    <!-- Experience Grid -->
-    <div class="experience-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Timeline -->
+    <div class="timeline-container relative">
+      <!-- Vertical line -->
+      <div class="timeline-line"></div>
+
       {#each experiences as experience, index}
-        <div class="experience-card bg-gray-800/30 backdrop-blur-sm rounded-2xl border border-gray-700 overflow-hidden flex flex-col">
-          <!-- Card Header -->
-          <div class="p-6 pb-4">
-            <div class="flex items-start justify-between mb-3">
-              <div class="flex-1">
-                <h2 class="text-xl font-bold text-gray-200 mb-1">{experience.position}</h2>
-                <h3 class="text-lg font-semibold" style="color: {accentColors.experienceCompany}">{experience.company}</h3>
-              </div>
-              {#if experience.current}
-                <span class="current-badge red-decoration-500 px-2 py-1 rounded-full text-white text-xs font-semibold shrink-0">
-                  {$t.experience.current}
-                </span>
-              {/if}
-            </div>
-
-            <!-- Meta Info -->
-            <div class="flex flex-col gap-2 text-sm text-gray-400 mb-3">
-              <span class="flex items-center gap-1">
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
-                  <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A31.493 31.493 0 0 1 8 14.58a31.481 31.481 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94zM8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10z"/>
-                  <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                </svg>
-                {experience.location}
-              </span>
-              <span class="flex items-center gap-1">
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
-                  <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-                </svg>
-                {formatDate(experience.startDate)} - {formatDate(experience.endDate)}
-              </span>
-              <span class="text-xs">{calculateDuration(experience.startDate, experience.endDate)}</span>
-            </div>
-
-            <!-- Description (always visible) -->
-            <p class="text-gray-300 text-sm line-clamp-3">
-              {experience.description}
-            </p>
+        <div
+          class="timeline-item {index % 2 === 0 ? 'tl-left' : 'tl-right'} {visibleExperiences[index] ? 'tl-visible' : ''}"
+          bind:this={experienceRefs[index]}
+        >
+          <!-- Dot -->
+          <div class="timeline-dot" style="background: {accentColors.experienceCompany}">
+            <div class="dot-ring" style="border-color: {accentColors.experienceCompany}"></div>
           </div>
 
-          <!-- Expandable Content -->
-          {#if expandedExperiences[index]}
-            <div class="px-6 pb-4 space-y-4">
-              <!-- Responsibilities -->
-              <div>
-                <h4 class="text-xs font-semibold text-gray-400 mb-2">{$t.experience.responsibilities}</h4>
-                <ul class="list-none space-y-1.5">
-                  {#each experience.responsibilities as responsibility}
-                    <li class="text-gray-300 text-xs flex items-start gap-2">
-                      <span class="mt-0.5 text-sm" style="color: {accentColors.experienceBullet}">▹</span>
-                      <span>{responsibility}</span>
-                    </li>
-                  {/each}
-                </ul>
+          <!-- Card -->
+          <div class="exp-card" style="--accent: {accentColors.experienceCompany}">
+            <!-- Accent stripe -->
+            <div class="exp-stripe" style="background: {accentColors.experienceCompany}"></div>
+
+            <div class="p-6 pb-4">
+              <div class="flex items-start justify-between mb-2">
+                <div class="flex-1">
+                  <h2 class="text-lg font-bold text-white mb-0.5">{experience.position}</h2>
+                  <h3 class="text-base font-semibold" style="color: {accentColors.experienceCompany}">{experience.company}</h3>
+                </div>
+                {#if experience.current}
+                  <span class="current-badge shrink-0 text-white text-xs font-semibold px-2 py-1 rounded-full" style="background: {accentColors.experienceCompany}">
+                    {$t.experience.current}
+                  </span>
+                {/if}
               </div>
 
-              <!-- Technologies -->
-              <div>
-                <h4 class="text-xs font-semibold text-gray-400 mb-2">{$t.experience.technologies}</h4>
-                <div class="flex flex-wrap gap-1.5">
-                  {#each experience.technologies as tech}
-                    <span class="tech-badge bg-gray-700/50 px-2 py-1 rounded-full text-xs text-gray-300 border border-gray-600">
-                      {tech}
-                    </span>
-                  {/each}
+              <div class="flex flex-wrap gap-3 text-xs text-gray-400 mb-3">
+                <span class="flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="currentColor" viewBox="0 0 16 16"><path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A31.493 31.493 0 0 1 8 14.58a31.481 31.481 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94zM8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10z"/><path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+                  {experience.location}
+                </span>
+                <span class="flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="currentColor" viewBox="0 0 16 16"><path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/></svg>
+                  {formatDate(experience.startDate)} — {formatDate(experience.endDate)}
+                </span>
+                <span class="text-gray-500">{calculateDuration(experience.startDate, experience.endDate)}</span>
+              </div>
+
+              <p class="text-gray-300 text-sm leading-relaxed">{experience.description}</p>
+
+              <!-- Duration bar -->
+              <div class="duration-track mt-4">
+                <div
+                  class="duration-fill {visibleExperiences[index] ? 'dur-animate' : ''}"
+                  style="--dur-width: {durationPercent(experience)}%; background: {accentColors.experienceCompany}; transition-delay: {index * 120 + 300}ms"
+                ></div>
+              </div>
+            </div>
+
+            <!-- Expandable content -->
+            <div class="expandable" style="max-height: {expandedExperiences[index] ? '600px' : '0'}">
+              <div class="px-6 pb-4 space-y-4">
+                <div>
+                  <h4 class="text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">{$t.experience.responsibilities}</h4>
+                  <ul class="space-y-1.5">
+                    {#each experience.responsibilities as responsibility}
+                      <li class="text-gray-300 text-xs flex items-start gap-2">
+                        <span class="mt-0.5 shrink-0" style="color: {accentColors.experienceCompany}">▹</span>
+                        <span>{responsibility}</span>
+                      </li>
+                    {/each}
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">{$t.experience.technologies}</h4>
+                  <div class="flex flex-wrap gap-1.5">
+                    {#each experience.technologies as tech, ti}
+                      <span
+                        class="tech-badge-exp text-xs px-2 py-0.5 rounded-full border"
+                        style="border-color: {accentColors.experienceCompany}33; color: {accentColors.experienceCompany}; animation-delay: {ti * 40}ms"
+                      >{tech}</span>
+                    {/each}
+                  </div>
                 </div>
               </div>
             </div>
-          {/if}
 
-          <!-- Expand/Collapse Button -->
-          <button
-            on:click={() => toggleExperience(index)}
-            class="expand-button w-full py-3 px-6 bg-gray-700/30 hover:bg-gray-700/50 transition-colors flex items-center justify-center gap-2 text-sm text-gray-400 hover:text-gray-200 border-t border-gray-700"
-          >
-            {#if expandedExperiences[index]}
-              <span>{$t.experience.showLess}</span>
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
-              </svg>
-            {:else}
-              <span>{$t.experience.showMore}</span>
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <!-- Expand toggle -->
+            <button
+              on:click={() => toggleExperience(index)}
+              class="expand-btn w-full py-3 px-6 flex items-center justify-center gap-2 text-xs text-gray-400 hover:text-gray-200 border-t border-gray-700/50 transition-colors"
+            >
+              {expandedExperiences[index] ? $t.experience.showLess : $t.experience.showMore}
+              <svg
+                xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16"
+                class="expand-chevron {expandedExperiences[index] ? 'chevron-up' : ''}"
+              >
                 <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
               </svg>
-            {/if}
-          </button>
+            </button>
+          </div>
         </div>
       {/each}
     </div>
@@ -542,89 +684,68 @@
           {$t.projects.featured}
         </h2>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {#each projects.filter(p => p.featured) as project}
-            <article class="project-card featured bg-gray-800/30 backdrop-blur-sm rounded-2xl border border-gray-700 overflow-hidden group">
-              <!-- Project Image -->
+          {#each projects.filter(p => p.featured) as project, fi}
+            <article
+              class="project-card featured bg-gray-800/30 backdrop-blur-sm rounded-2xl border border-gray-700 overflow-hidden group"
+              on:mousemove={(e) => handleProjectTilt(e, e.currentTarget)}
+              on:mouseleave={(e) => resetProjectTilt(e.currentTarget)}
+              style="transition: transform 0.15s ease, border-color 0.3s ease;"
+            >
+              <!-- Image with overlay -->
               <div class="project-image-container relative h-56 bg-gradient-to-br from-gray-700 to-gray-900 overflow-hidden">
                 {#if project.image}
                   <img
                     src={project.image}
                     alt={project.title}
-                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    on:error={(e) => {
-                      e.currentTarget.style.display = 'none';
-                      e.currentTarget.nextElementSibling?.classList.remove('hidden');
-                    }}
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    on:error={(e) => { e.currentTarget.style.display = 'none'; }}
                   />
-                  <div class="hidden absolute inset-0 flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="text-gray-600" viewBox="0 0 16 16">
-                      <path d="M5 4a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1H5zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1H5zm0 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1H5z"/>
-                      <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
-                    </svg>
-                  </div>
-                {:else}
-                  <div class="absolute inset-0 flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="text-gray-600" viewBox="0 0 16 16">
-                      <path d="M5 4a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1H5zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1H5zm0 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1H5z"/>
-                      <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
-                    </svg>
-                  </div>
                 {/if}
-                <div class="absolute top-4 right-4">
-                  <span class="status-badge {statusColors[project.status]} px-3 py-1 rounded-full text-white text-xs font-semibold">
+
+                <!-- Status badge -->
+                <div class="absolute top-4 right-4 z-10 flex items-center gap-1.5">
+                  {#if project.status === 'active' || project.status === 'in-progress'}
+                    <span class="active-dot"></span>
+                  {/if}
+                  <span class="{statusColors[project.status]} px-3 py-1 rounded-full text-white text-xs font-semibold">
                     {$t.projects.status[project.status]}
                   </span>
                 </div>
-              </div>
 
-              <!-- Project Content -->
-              <div class="p-6">
-                <div class="flex items-start justify-between mb-3">
-                  <h3 class="text-2xl font-bold text-gray-200">{project.title}</h3>
-                  <span class="text-gray-500 text-sm">{project.year}</span>
-                </div>
-
-                <p class="text-gray-300 mb-4">{project.description}</p>
-
-                <!-- Technologies -->
-                <div class="mb-4">
-                  <div class="flex flex-wrap gap-2">
-                    {#each project.technologies as tech}
-                      <span class="tech-tag bg-gray-700/50 px-3 py-1 rounded-full text-xs text-gray-300 border border-gray-600">
-                        {tech}
-                      </span>
-                    {/each}
+                <!-- Hover overlay -->
+                <div class="proj-overlay absolute inset-0 flex flex-col justify-end p-5">
+                  <p class="text-gray-200 text-sm leading-relaxed mb-3 line-clamp-4">{project.longDescription}</p>
+                  <div class="flex gap-2">
+                    {#if project.githubUrl}
+                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer"
+                        class="flex items-center gap-1.5 px-3 py-1.5 bg-gray-800/80 hover:bg-gray-700 rounded-lg text-gray-200 text-xs transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Code
+                      </a>
+                    {/if}
+                    {#if project.liveUrl}
+                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer"
+                        class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-white text-xs transition-colors"
+                        style="background: var(--red)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/><path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/></svg>
+                        Live Demo
+                      </a>
+                    {/if}
                   </div>
                 </div>
+              </div>
 
-                <!-- Links -->
-                <div class="flex gap-3">
-                  {#if project.githubUrl}
-                    <a
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="project-link flex items-center gap-2 px-4 py-2 bg-gray-700/50 hover:bg-gray-700 rounded-lg text-gray-300 hover:text-white transition-all"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
-                      </svg>
-                      {$t.projects.code}
-                    </a>
-                  {/if}
-                  {#if project.liveUrl}
-                    <a
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="project-link flex items-center gap-2 px-4 py-2 red-decoration-500 hover:red-decoration-500 rounded-lg text-white transition-all"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm7.5-6.923c-.67.204-1.335.82-1.887 1.855A7.97 7.97 0 0 0 5.145 4H7.5V1.077zM4.09 4a9.267 9.267 0 0 1 .64-1.539 6.7 6.7 0 0 1 .597-.933A7.025 7.025 0 0 0 2.255 4H4.09zm-.582 3.5c.03-.877.138-1.718.312-2.5H1.674a6.958 6.958 0 0 0-.656 2.5h2.49zM4.847 5a12.5 12.5 0 0 0-.338 2.5H7.5V5H4.847zM8.5 5v2.5h2.99a12.495 12.495 0 0 0-.337-2.5H8.5zM4.51 8.5a12.5 12.5 0 0 0 .337 2.5H7.5V8.5H4.51zm3.99 0V11h2.653c.187-.765.306-1.608.338-2.5H8.5zM5.145 12c.138.386.295.744.468 1.068.552 1.035 1.218 1.65 1.887 1.855V12H5.145zm.182 2.472a6.696 6.696 0 0 1-.597-.933A9.268 9.268 0 0 1 4.09 12H2.255a7.024 7.024 0 0 0 3.072 2.472zM3.82 11a13.652 13.652 0 0 1-.312-2.5h-2.49c.062.89.291 1.733.656 2.5H3.82zm6.853 3.472A7.024 7.024 0 0 0 13.745 12H11.91a9.27 9.27 0 0 1-.64 1.539 6.688 6.688 0 0 1-.597.933zM8.5 12v2.923c.67-.204 1.335-.82 1.887-1.855.173-.324.33-.682.468-1.068H8.5zm3.68-1h2.146c.365-.767.594-1.61.656-2.5h-2.49a13.65 13.65 0 0 1-.312 2.5zm2.802-3.5a6.959 6.959 0 0 0-.656-2.5H12.18c.174.782.282 1.623.312 2.5h2.49zM11.27 2.461c.247.464.462.98.64 1.539h1.835a7.024 7.024 0 0 0-3.072-2.472c.218.284.418.598.597.933zM10.855 4a7.966 7.966 0 0 0-.468-1.068C9.835 1.897 9.17 1.282 8.5 1.077V4h2.355z"/>
-                      </svg>
-                      {$t.projects.liveDemo}
-                    </a>
-                  {/if}
+              <!-- Static card content (always visible) -->
+              <div class="p-6">
+                <div class="flex items-start justify-between mb-2">
+                  <h3 class="text-xl font-bold text-gray-200">{project.title}</h3>
+                  <span class="text-gray-500 text-sm font-mono">{project.year}</span>
+                </div>
+                <p class="text-gray-400 text-sm mb-4">{project.description}</p>
+                <div class="flex flex-wrap gap-1.5">
+                  {#each project.technologies as tech}
+                    <span class="tech-tag bg-gray-700/50 px-2 py-0.5 rounded-full text-xs text-gray-400 border border-gray-600/50">{tech}</span>
+                  {/each}
                 </div>
               </div>
             </article>
@@ -637,90 +758,58 @@
     <div>
       <h2 class="text-2xl font-bold text-gray-200 mb-6">{$t.projects.allProjects}</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {#each projects as project}
-          <article class="project-card bg-gray-800/30 backdrop-blur-sm rounded-2xl border border-gray-700 overflow-hidden flex flex-col">
-            <!-- Project Image -->
+        {#each projects as project, pi}
+          <article
+            class="project-card bg-gray-800/30 backdrop-blur-sm rounded-2xl border border-gray-700 overflow-hidden flex flex-col {visibleProjects[pi] ? 'proj-visible' : ''}"
+            style="--stagger: {pi * 80}ms"
+            bind:this={projectRefs[pi]}
+          >
+            <!-- Image -->
             <div class="project-image-container-small relative h-40 bg-gradient-to-br from-gray-700 to-gray-900 overflow-hidden">
               {#if project.image}
-                <img
-                  src={project.image}
-                  alt={project.title}
+                <img src={project.image} alt={project.title}
                   class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                  on:error={(e) => {
-                    e.currentTarget.style.display = 'none';
-                    e.currentTarget.nextElementSibling?.classList.remove('hidden');
-                  }}
-                />
-                <div class="hidden absolute inset-0 flex items-center justify-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="text-gray-600" viewBox="0 0 16 16">
-                    <path d="M5 4a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1H5zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1H5zm0 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1H5z"/>
-                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
-                  </svg>
-                </div>
-              {:else}
-                <div class="absolute inset-0 flex items-center justify-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="text-gray-600" viewBox="0 0 16 16">
-                    <path d="M5 4a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1H5zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1H5zm0 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1H5z"/>
-                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z"/>
-                  </svg>
-                </div>
+                  on:error={(e) => { e.currentTarget.style.display='none'; }} />
               {/if}
-            </div>
-
-            <!-- Project Content -->
-            <div class="p-5 flex flex-col flex-1">
-              <div class="flex items-start justify-between mb-2">
-                <h3 class="text-xl font-bold text-gray-200 flex-1">{project.title}</h3>
-                <span class="status-badge {statusColors[project.status]} px-2 py-1 rounded-full text-white text-xs font-semibold">
+              <!-- Status -->
+              <div class="absolute top-3 right-3 flex items-center gap-1">
+                {#if project.status === 'active' || project.status === 'in-progress'}
+                  <span class="active-dot"></span>
+                {/if}
+                <span class="{statusColors[project.status]} px-2 py-0.5 rounded-full text-white text-xs font-semibold">
                   {$t.projects.status[project.status]}
                 </span>
               </div>
+            </div>
 
-              <p class="text-gray-300 text-sm mb-4 flex-1">{project.description}</p>
-
-              <!-- Technologies -->
-              <div class="mb-4">
-                <div class="flex flex-wrap gap-1.5">
-                  {#each project.technologies.slice(0, 3) as tech}
-                    <span class="tech-tag bg-gray-700/50 px-2 py-0.5 rounded-full text-xs text-gray-400">
-                      {tech}
-                    </span>
-                  {/each}
-                  {#if project.technologies.length > 3}
-                    <span class="tech-tag bg-gray-700/50 px-2 py-0.5 rounded-full text-xs text-gray-400">
-                      +{project.technologies.length - 3}
-                    </span>
-                  {/if}
-                </div>
+            <div class="p-5 flex flex-col flex-1">
+              <div class="flex items-start justify-between mb-2">
+                <h3 class="text-lg font-bold text-gray-200 flex-1">{project.title}</h3>
+                <span class="text-gray-500 text-xs font-mono ml-2">{project.year}</span>
               </div>
-
-              <!-- Links -->
+              <p class="text-gray-400 text-sm mb-4 flex-1">{project.description}</p>
+              <div class="flex flex-wrap gap-1.5 mb-4">
+                {#each project.technologies.slice(0, 3) as tech, ti}
+                  <span class="tech-tag-sm bg-gray-700/50 px-2 py-0.5 rounded-full text-xs text-gray-400" style="animation-delay: {ti * 50}ms">{tech}</span>
+                {/each}
+                {#if project.technologies.length > 3}
+                  <span class="bg-gray-700/50 px-2 py-0.5 rounded-full text-xs text-gray-500">+{project.technologies.length - 3}</span>
+                {/if}
+              </div>
               <div class="flex gap-2 mt-auto">
                 {#if project.githubUrl}
-                  <a
-                    href={project.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="project-link-small flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-gray-700/50 hover:bg-gray-700 rounded-lg text-gray-300 hover:text-white transition-all text-sm"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
-                      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
-                    </svg>
-                    {$t.projects.code}
+                  <a href={project.githubUrl} target="_blank" rel="noopener noreferrer"
+                    class="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-gray-700/50 hover:bg-gray-700 rounded-lg text-gray-300 hover:text-white transition-all text-xs">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+                    Code
                   </a>
                 {/if}
                 {#if project.liveUrl}
-                  <a
-                    href={project.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="project-link-small flex-1 flex items-center justify-center gap-2 px-3 py-2 red-decoration-500 hover:red-decoration-500 rounded-lg text-white transition-all text-sm"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
-                      <path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
-                      <path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
-                    </svg>
-                    {$t.projects.demo}
+                  <a href={project.liveUrl} target="_blank" rel="noopener noreferrer"
+                    class="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-white transition-all text-xs"
+                    style="background: var(--red)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/><path fill-rule="evenodd" d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/></svg>
+                    Demo
                   </a>
                 {/if}
               </div>
@@ -830,6 +919,7 @@
 </section>
 
 <style>
+  /* ── Hero ──────────────────────────────────────────── */
   .main {
     background-color: transparent;
     position: relative;
@@ -839,7 +929,6 @@
     width: 100vw;
     min-height: 100vh;
   }
-
   .titles {
     z-index: 9;
     font-family: 'Helvetica Neue', sans-serif;
@@ -848,40 +937,21 @@
     text-stroke: 1px var(--red);
     -webkit-text-stroke: 1px var(--red);
   }
-
-  @media (min-width: 768px) {
-    .titles {
-      font-size: 6rem;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .titles {
-      font-size: 8rem;
-    }
-  }
-
-  @media (min-width: 1280px) {
-    .titles {
-      font-size: 10rem;
-    }
-  }
+  @media (min-width: 768px)  { .titles { font-size: 6rem; } }
+  @media (min-width: 1024px) { .titles { font-size: 8rem; } }
+  @media (min-width: 1280px) { .titles { font-size: 10rem; } }
 
   .scroll-button {
     border: 1px solid var(--red);
     transition: all 500ms ease-in-out;
   }
-
   .scroll-button:hover {
     transform: scale(1.1) rotate(360deg);
     border: 1px solid #FFF;
   }
+  .scroll-button:hover img { filter: brightness(0) invert(1); }
 
-  .scroll-button:hover img {
-    filter: brightness(0) invert(1);
-  }
-
-  /* About Section Styles */
+  /* ── About ─────────────────────────────────────────── */
   .about-section {
     padding-top: 40px;
     height: 90vh;
@@ -890,7 +960,6 @@
     align-items: center;
     justify-content: center;
   }
-
   .about-content {
     text-align: center;
     display: flex;
@@ -898,30 +967,18 @@
     align-items: center;
     justify-content: center;
   }
-
   .contact-button {
     position: relative;
     border: 2px solid #FFF;
     color: #FFF;
-    background: linear-gradient(
-      to right,
-      transparent 0%,
-      transparent 50%,
-      #E2211C 50%,
-      #E2211C 100%
-    );
+    background: linear-gradient(to right, transparent 0%, transparent 50%, #E2211C 50%, #E2211C 100%);
     background-size: 200% 100%;
     background-position: 0% 0%;
     transition: background-position 0.6s ease-in-out;
     overflow: hidden;
     margin-top: 20px;
   }
-
-  .contact-button:hover {
-    background-position: 100% 0%;
-    transform: scale(1.05);
-  }
-
+  .contact-button:hover { background-position: 100% 0%; transform: scale(1.05); }
   .intro {
     font-size: clamp(1.4rem, 3vw, 2rem);
     line-height: 1.5;
@@ -930,15 +987,8 @@
     color: #E5E7EB;
     font-weight: 500;
   }
-
   .name-hover {
-    background: linear-gradient(
-      to right,
-      #FFF 0%,
-      #FFF 50%,
-      #E2211C 50%,
-      #E2211C 100%
-    );
+    background: linear-gradient(to right, #FFF 0%, #FFF 50%, #E2211C 50%, #E2211C 100%);
     background-size: 200% 100%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -947,7 +997,6 @@
     -webkit-text-stroke: 1px var(--red);
     font-size: 3em;
   }
-
   .description {
     font-size: clamp(1.1rem, 2vw, 1.4rem);
     line-height: 1.6;
@@ -956,145 +1005,278 @@
     color: #9CA3AF;
   }
 
-  /* Skills Section Styles */
-  .skills-section {
-    padding-top: 80px;
+  /* ── Experience Timeline ────────────────────────────── */
+  .experience-section { padding-top: 80px; }
+
+  .timeline-container { padding: 0 1rem; }
+
+  .timeline-line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(237,27,46,0.3) 10%, rgba(237,27,46,0.3) 90%, transparent);
+    transform: translateX(-50%);
   }
+
+  @media (max-width: 767px) {
+    .timeline-line { left: 16px; }
+  }
+
+  .timeline-item {
+    position: relative;
+    width: calc(50% - 2.5rem);
+    margin-bottom: 3rem;
+    opacity: 0;
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .tl-left  { transform: translateX(-48px); }
+  .tl-right { transform: translateX(48px); margin-left: auto; }
+  .tl-visible { opacity: 1; transform: translateX(0) !important; }
+
+  @media (max-width: 767px) {
+    .timeline-item, .tl-left, .tl-right {
+      width: calc(100% - 3rem);
+      margin-left: 3rem !important;
+      transform: translateX(30px);
+    }
+    .tl-visible { transform: translateX(0) !important; }
+  }
+
+  /* Dot */
+  .timeline-dot {
+    position: absolute;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    top: 22px;
+    z-index: 2;
+  }
+  .tl-left  .timeline-dot { right: -2.85rem; }
+  .tl-right .timeline-dot { left: -2.85rem; }
+  @media (max-width: 767px) {
+    .timeline-dot { left: -2.85rem !important; right: auto !important; }
+  }
+
+  .dot-ring {
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    border: 2px solid;
+    animation: dotPulse 2.2s ease-out infinite;
+  }
+  @keyframes dotPulse {
+    0%   { opacity: 0.9; transform: scale(1); }
+    100% { opacity: 0; transform: scale(2.8); }
+  }
+
+  /* Card */
+  .exp-card {
+    background: rgba(31, 34, 41, 0.6);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.07);
+    overflow: hidden;
+    position: relative;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  .exp-card:hover {
+    border-color: var(--accent, var(--red));
+    box-shadow: 0 8px 32px -8px color-mix(in srgb, var(--accent, var(--red)) 30%, transparent);
+    transform: translateY(-3px);
+  }
+  .exp-stripe {
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 3px;
+  }
+
+  /* Duration bar */
+  .duration-track {
+    height: 3px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 9999px;
+    overflow: hidden;
+  }
+  .duration-fill {
+    height: 100%;
+    border-radius: 9999px;
+    width: 0;
+    transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .dur-animate { width: var(--dur-width); }
+
+  /* Expandable */
+  .expandable {
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .tech-badge-exp {
+    background: rgba(255,255,255,0.04);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .tech-badge-exp:hover { background: rgba(255,255,255,0.1); transform: translateY(-2px); }
+
+  .expand-btn { background: rgba(255,255,255,0.02); transition: background 0.2s ease; }
+  .expand-btn:hover { background: rgba(255,255,255,0.05); }
+
+  .expand-chevron { transition: transform 0.3s ease; }
+  .chevron-up { transform: rotate(180deg); }
+
+  /* ── Skills ─────────────────────────────────────────── */
+  .skills-section { padding-top: 80px; }
+
+  .skill-card-entrance {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) var(--entrance-delay, 0ms),
+                transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) var(--entrance-delay, 0ms),
+                border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  /* Trigger via JS adding class, but since skillsVisible flips let's use it */
+  /* We'll rely on the IntersectionObserver adding visible via skillsVisible */
+
+  .category-card {
+    position: relative;
+    transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .category-card:hover {
+    transform: translateY(-4px);
+    border: 1px solid var(--hover-border-color);
+    box-shadow: 0 8px 25px -5px rgba(255, 62, 0, 0.1);
+  }
+
+  /* Cursor glow */
+  .cursor-glow {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+      rgba(255,62,0,0.07) 0%,
+      transparent 55%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+  .category-card:hover .cursor-glow { opacity: 1; }
+
+  /* Skill bars */
+  .skill-track {
+    height: 5px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 9999px;
+    overflow: hidden;
+  }
+  .skill-fill {
+    height: 100%;
+    border-radius: 9999px;
+    width: 0;
+    transition: width 1.1s cubic-bezier(0.16, 1, 0.3, 1) var(--bar-delay, 0ms);
+    box-shadow: 0 0 8px currentColor;
+  }
+  .skill-fill-animate { width: var(--level); }
 
   .chart-wrapper {
     position: relative;
     overflow: hidden;
   }
 
-  .category-card {
-    transition: all 0.3s ease;
-  }
+  /* ── Projects ────────────────────────────────────────── */
+  .projects-section { padding-top: 80px; }
 
-  .category-card:hover {
-    transform: translateY(-4px);
-    border: 2px solid var(--hover-border-color);
-    box-shadow: 0 8px 25px -5px rgba(255, 62, 0, 0.1);
-  }
-
-  /* Experience Section Styles */
-  .experience-section {
-    padding-top: 80px;
-  }
-
-  .experience-card {
-    transition: all 0.3s ease;
-  }
-
-  .experience-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--red);
-    border: 2px;
-    box-shadow: 0 8px 25px -5px rgba(255, 62, 0, 0.1);
-  }
-
-  .line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .expand-button {
-    margin-top: auto;
-  }
-
-  .tech-badge {
-    transition: all 0.3s ease;
-  }
-
-  .tech-badge:hover {
-    background-color: var(--red);
-    border-color: var(--red);
-    color: var(--red);
-  }
-
-  /* Projects Section Styles */
-  .projects-section {
-    padding-top: 80px;
-  }
-
+  /* Entrance animation */
   .project-card {
-    transition: transform 0.3s ease, border-color 0.3s ease;
-    position: relative;
-    border: 3px solid transparent;
+    opacity: 0;
+    transform: translateY(36px);
+    transition:
+      opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) var(--stagger, 0ms),
+      transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) var(--stagger, 0ms),
+      border-color 0.3s ease,
+      box-shadow 0.3s ease;
   }
+  .proj-visible { opacity: 1; transform: translateY(0); }
 
   .project-card:hover {
-    transform: translateY(-4px);
     border-color: var(--red);
+    box-shadow: 0 8px 28px -8px rgba(237,27,46,0.25);
   }
 
-  .project-link, .project-link-small {
-    transition: all 0.3s ease;
+  /* Featured card tilt handled inline */
+  .project-card.featured {
+    transform-style: preserve-3d;
+    will-change: transform;
+    opacity: 1; /* featured cards always visible */
+    transform: none;
   }
 
-  .tech-tag {
-    transition: all 0.3s ease;
+  /* Glassmorphism overlay */
+  .proj-overlay {
+    background: linear-gradient(to top, rgba(20,22,28,0.97) 0%, rgba(20,22,28,0.7) 60%, transparent 100%);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    pointer-events: none;
+  }
+  .group:hover .proj-overlay {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
   }
 
-  .tech-tag:hover {
-    background-color: var(--red);
-    border-color: var(--red);
-    color: var(--red);
+  /* Active dot */
+  .active-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    background: #22c55e;
+    border-radius: 50%;
+    animation: activeBlink 1.6s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  @keyframes activeBlink {
+    0%, 100% { opacity: 1; box-shadow: 0 0 4px #22c55e; }
+    50% { opacity: 0.25; box-shadow: none; }
   }
 
-  /* Publications Section Styles */
-  .publications-section {
-    padding-top: 80px;
+  /* Tech tags */
+  .tech-tag, .tech-tag-sm {
+    transition: all 0.2s ease;
+  }
+  .tech-tag:hover, .tech-tag-sm:hover {
+    background-color: rgba(237,27,46,0.15);
+    border-color: rgba(237,27,46,0.4);
+    color: #fff;
+    transform: translateY(-2px);
   }
 
+  /* ── Publications (unchanged) ────────────────────────── */
+  .publications-section { padding-top: 80px; }
   .publication-card {
     transition: all 0.3s ease;
   }
-
   .publication-card:hover {
     transform: translateY(-8px);
     box-shadow: 0 12px 30px -5px var(--publication-hover-color);
     border-color: var(--publication-hover-color);
   }
+  .publication-title-link:hover { color: var(--publication-title-color); }
+  .article-thumbnail { transition: all 0.3s ease; }
+  .article-thumbnail img { transition: transform 0.5s ease; }
+  .read-more-link svg { transition: transform 0.3s ease; }
+  .read-more-link:hover svg { transform: translateX(4px); }
+  .tag { transition: all 0.3s ease; }
+  .tag:hover { background-color: rgba(255,62,0,0.2); color: var(--red); }
 
-  .publication-title-link:hover {
-    color: var(--publication-title-color);
-  }
-
-  .article-thumbnail {
-    transition: all 0.3s ease;
-  }
-
-  .article-thumbnail img {
-    transition: transform 0.5s ease;
-  }
-
-  .read-more-link svg {
-    transition: transform 0.3s ease;
-  }
-
-  .read-more-link:hover svg {
-    transform: translateX(4px);
-  }
-
-  .tag {
-    transition: all 0.3s ease;
-  }
-
-  .tag:hover {
-    background-color: rgba(255, 62, 0, 0.2);
-    color: var(--red);
-  }
-
-  .red-decoration {
-    background-color: var(--red);
-  }
+  /* ── Utilities ───────────────────────────────────────── */
+  .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .line-clamp-4 { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+  .red-decoration { background-color: var(--red); }
 </style>
