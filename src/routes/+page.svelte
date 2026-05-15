@@ -566,9 +566,6 @@
                 <div style="position:absolute;top:4px;left:5px;color:#5D3FD3;mix-blend-mode:multiply;font-family:var(--font-display);font-size:clamp(36px,5vw,72px);line-height:0.9;letter-spacing:-1.5px;">{featuredProject.title}</div>
                 <div style="position:relative;color:#1C1A2E;font-family:var(--font-display);font-size:clamp(36px,5vw,72px);line-height:0.9;letter-spacing:-1.5px;">{featuredProject.title}</div>
               </div>
-              {#if featuredProject.liveUrl}
-                <div style="margin-top:14px;font-family:var(--font-mono);font-size:11px;background:#1C1A2E;color:#FFF8EA;padding:4px 10px;border-radius:999px;display:inline-block;">↗ {featuredProject.liveUrl.replace('https://','')}</div>
-              {/if}
             </div>
           </div>
         </div>
@@ -594,7 +591,8 @@
     <!-- Secondary grid -->
     <div class="proj-secondary-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
       {#each secondaryProjects as proj, i}
-        <article class="riso-card" style="background:#FFF8EA;border:2px solid #1C1A2E;box-shadow:5px 5px 0 #1C1A2E;padding:14px;transform:rotate({CARD_ROTATIONS[i]||0}deg);">
+        <a href={proj.liveUrl || proj.websiteUrl || '#'} target="_blank" rel="noopener noreferrer" style="display:block;text-decoration:none;color:inherit;">
+        <article class="riso-card" style="background:#FFF8EA;border:2px solid #1C1A2E;box-shadow:5px 5px 0 #1C1A2E;padding:14px;transform:rotate({CARD_ROTATIONS[i]||0}deg);height:100%;">
           <!-- Mini browser mock -->
           <div style="border:1.5px solid #1C1A2E;border-radius:3px;overflow:hidden;margin-bottom:14px;">
             <div style="background:#1C1A2E;padding:5px 8px;display:flex;align-items:center;gap:5px;">
@@ -645,6 +643,7 @@
             </div>
           </div>
         </article>
+        </a>
       {/each}
     </div>
   </div>
